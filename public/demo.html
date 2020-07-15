@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/png" href="./icons/favicon.png" />
+        <title>UIMS Assistant - Demo</title>
+
+        <!-- JQUERY -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- CHART JS -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
+            integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="
+            crossorigin="anonymous"
+        />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+            integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI="
+            crossorigin="anonymous"
+        ></script>
+
+        <!-- MATERIALIZE CSS -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <!-- MATERIAL ICONS -->
+        <link
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet"
+        />
+
+        <!-- UBUNTU FONT -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- CUSTOM CSS -->
+        <link rel="stylesheet" type="text/css" href="./styles/style.css" />
+        <link rel="stylesheet" type="text/css" href="./styles/demo.css" />
+    </head>
+    <body>
+        <!-- NAVBAR -->
+        <nav class="red accent-3">
+            <div class="nav-wrapper container">
+                <a href="./" class="brand-logo white-text">UIMS Assistant</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li class="logged-out" style="display: none;">
+                        <a class="modal-trigger" data-target="modal-premium"
+                            >Go Premium</a
+                        >
+                    </li>
+                    <li class="logged-out" style="display: none;">
+                        <a class="modal-trigger" data-target="modal-login"
+                            >Login</a
+                        >
+                    </li>
+                    <li class="logged-in" style="display: none;">
+                        <a class="logout-fx">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- SIDENAV -->
+        <ul class="sidenav" id="mobile-demo">
+            <li>
+                <div style="margin-top: 8px; margin-left: 12px;">
+                    <a href="./">UIMS Assistant</a>
+                </div>
+            </li>
+            <li><div class="divider"></div></li>
+            <li class="logged-out" style="display: none;">
+                <a class="modal-trigger" data-target="modal-premium"
+                    >Go Premium</a
+                >
+            </li>
+            <li class="logged-out" style="display: none;">
+                <a class="modal-trigger" data-target="modal-login">Login</a>
+            </li>
+            <li class="logged-in" style="display: none;">
+                <a class="logout-fx">Logout</a>
+            </li>
+        </ul>
+
+        <!-- CONTENT -->
+        <div class="container">
+            <div class="row">
+                <div id="chartHolder" class="col s12">
+                    <div class="preloader-wrapper big active" id="loader">
+                        <div class="spinner-layer spinner-blue">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-red">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-yellow">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-green">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas
+                        id="myChart"
+                        width="640"
+                        height="480"
+                        style="display: none;"
+                    ></canvas>
+                    <div class="instructions" style="display: none;">
+                        <span class="flow-text">How to make this work?</span
+                        ><br /><br /><br />
+                        <span class="flow-text">
+                            1. Right click anywhere on screen
+                            <br />
+                            2. Left click on
+                            <strong> Load Attendance Data</strong></span
+                        ><br /><br /><br />
+                        <span class="flow-text">OR</span>
+                        <br /><br /><br />
+                        <span class="flow-text"
+                            >1. Open the extension's menu<br />
+                            2. Click on <strong>LOAD</strong></span
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <div class="choice btnsHolder">
+                    <a
+                        class="waves-effect waves-light btn-large red accent-3 modal-trigger"
+                        data-target="modal-premium"
+                        style="font-size: large;"
+                        ><i class="material-icons left">star</i>Load dummy
+                        data<i class="material-icons right">star</i></a
+                    >
+                    <button
+                        onclick="chrome.webstore.install()"
+                        id="install-button"
+                    >
+                        Add to Chrome
+                    </button>
+                    <script>
+                        if (document.getElementById("extension-is-installed")) {
+                            document.getElementById(
+                                "install-button"
+                            ).style.display = "none";
+                        }
+                    </script>
+                    <a
+                        class="waves-effect waves-light btn-large red accent-3 modal-trigger"
+                        data-target="modal-premium"
+                        style="font-size: large;"
+                        ><i class="material-icons left">star</i>Load from
+                        extension<i class="material-icons right">star</i></a
+                    >
+                </div>
+            </div> -->
+
+            <div class="row subCardsHeader">
+                <div class="col s12 title" style="display: none;">
+                    <span class="flow-text">Here's the detailed breakup</span>
+                </div>
+                <div class="col s12 progress">
+                    <div class="indeterminate"></div>
+                </div>
+            </div>
+
+            <div class="row moreThan90" style="display: none;"></div>
+
+            <div class="row safeBetween" style="display: none;"></div>
+
+            <div class="row lessThan75" style="display: none;"></div>
+        </div>
+
+        <div class="fixed-action-btn">
+            <a
+                class="btn-floating btn-large green accent-4 tooltipped"
+                data-position="top"
+                data-tooltip="refresh"
+                id="refreshViewFAB"
+                onclick="refreshView()"
+            >
+                <i class="material-icons">refresh</i>
+            </a>
+        </div>
+
+        <!-- PREMIUM MODAL -->
+        <div id="modal-premium" class="modal">
+            <div class="modal-content">
+                <h3>Go Premium</h3>
+                <p class="flow-text">Hey there, thanks for showing interest.</p>
+                <p class="flow-text">
+                    As the UIMS Assistant is currently under development, the
+                    <strong>Premium</strong> feature is available on an
+                    invite-only basis. Ask around if any of your friends can
+                    send you an invite.
+                </p>
+                <p class="flow-text">
+                    Contact <strong>@dsp9107</strong> if any further queries.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-close waves-effect waves-red btn-flat">Okay</a>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $(".fixed-action-btn").floatingActionButton();
+                $(".tooltipped").tooltip();
+                $(".modal").modal();
+            });
+        </script>
+        <script src="./scripts/demo.js"></script>
+    </body>
+</html>

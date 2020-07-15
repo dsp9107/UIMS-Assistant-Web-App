@@ -1,0 +1,28 @@
+body {
+    font-family: "Ubuntu", sans-serif;
+}
+
+nav > div.container {
+    margin-top: 0%;
+}
+
+body > div.container {
+    margin-top: 2%;
+}
+
+.row {
+    margin-top: 5%;
+}
+
+.bordy {
+    border: solid;
+    border-color: black;
+    border-width: thin;
+}
+
+.btnsHolder {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
