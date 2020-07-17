@@ -106,7 +106,7 @@ function lightItUp() {
                 return lightItUp();
             }
             setTimeout(() => {
-                generateChart(prep(attendanceData.data));
+                generateChart();
                 $("#loader").hide();
                 $("#myChart").show();
             }, 1200);
@@ -134,7 +134,7 @@ function lightItUp() {
                 return lightItUp();
             }
             setTimeout(() => {
-                generateChart(prep(attendanceData.data));
+                generateChart();
                 $("#loader").hide();
                 $("#myChart").show();
             }, 1200);
@@ -249,7 +249,7 @@ function lightItUp() {
             );
         }
         setTimeout(() => {
-            generateChart(prep(attendanceData.data));
+            generateChart();
             $("#loader").hide();
             $("#myChart").show();
         }, 1200);
@@ -336,7 +336,9 @@ function prep(attendance) {
     return { labels, data, backgroundColor, borderColor };
 }
 
-function generateChart(param) {
+function generateChart() {
+    var param = prep(JSON.parse(sessionStorage.getItem("attendanceData")).data);
+
     var ctx = document.getElementById("myChart").getContext("2d");
 
     var myChart = new Chart(ctx, {
