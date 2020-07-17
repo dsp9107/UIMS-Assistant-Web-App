@@ -15,6 +15,7 @@ $(document).ready(function () {
         preventScrolling: true,
     };
     var instances = M.Sidenav.init(elems, options);
+    adjustNavbarTitle();
     return lightItUp();
 });
 
@@ -77,7 +78,6 @@ function refreshView() {
     M.Toast.dismissAll();
     $(".tooltipped").tooltip();
     $(".instructions").hide();
-    // $("#download-btn").hide();
     $("#loader").show();
     $("#myChart").hide();
     $(".subCardsHeader .title").hide();
@@ -117,6 +117,7 @@ function lightItUp() {
                 $(".moreThan90, .safeBetween, .lessThan75").show();
                 M.toast({
                     html: "attendance data loaded",
+                    displayLength: 3000,
                 });
             }, 1200);
         } else if (attendanceData && attendanceData.desc == "demo") {
@@ -144,6 +145,7 @@ function lightItUp() {
                 $(".moreThan90, .safeBetween, .lessThan75").show();
                 M.toast({
                     html: "dummy data loaded",
+                    displayLength: 3000,
                 });
             }, 1200);
         } else {
@@ -191,6 +193,7 @@ function lightItUp() {
                         $("#download-btn").show();
                         M.toast({
                             html: "check console",
+                            displayLength: 3000,
                         });
                         console.log("contact @dsp9107");
                         sessionStorage.setItem(
@@ -209,6 +212,7 @@ function lightItUp() {
                 console.log(e);
                 M.toast({
                     html: "check console",
+                    displayLength: 3000,
                 });
                 sessionStorage.setItem(
                     "attendanceData",
@@ -222,11 +226,10 @@ function lightItUp() {
             }
         }
     } else {
-        // $("#download-btn").hide();
         let attendanceData = JSON.parse(
             sessionStorage.getItem("attendanceData")
         );
-        if (attendanceData.version == 1) {
+        if (attendanceData && attendanceData.version == 1) {
             sessionStorage.setItem(
                 "attendanceData",
                 JSON.stringify({
@@ -235,7 +238,15 @@ function lightItUp() {
                     version: 2,
                 })
             );
-            return lightItUp();
+        } else {
+            sessionStorage.setItem(
+                "attendanceData",
+                JSON.stringify({
+                    desc: "demo",
+                    data: cleanDataFetched(demoAttendance.data),
+                    version: 2,
+                })
+            );
         }
         setTimeout(() => {
             generateChart(prep(attendanceData.data));
@@ -248,7 +259,8 @@ function lightItUp() {
             $(".subCardsHeader .title").show();
             $(".moreThan90, .safeBetween, .lessThan75").show();
             M.toast({
-                html: "dummy data loaded.",
+                html: "dummy data loaded",
+                displayLength: 3000,
             });
         }, 1200);
     }

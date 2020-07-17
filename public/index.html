@@ -35,7 +35,7 @@
         <!-- NAVBAR -->
         <nav class="red accent-3">
             <div class="nav-wrapper container">
-                <a href="./index" class="brand-logo center white-text"
+                <a href="./index.html" class="brand-logo center white-text"
                     >UIMS Assistant</a
                 >
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"
@@ -43,7 +43,9 @@
                 >
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li class="yellow">
-                        <a class="black-text" href="./demo">check out demo</a>
+                        <a class="black-text" href="./demo.html"
+                            >check out demo</a
+                        >
                     </li>
                 </ul>
             </div>
@@ -53,7 +55,7 @@
         <ul class="sidenav" id="mobile-demo">
             <li>
                 <div style="margin-top: 8px; margin-left: 12px;">
-                    <a href="./index">UIMS Assistant</a>
+                    <a href="./index.html">UIMS Assistant</a>
                 </div>
             </li>
             <li><div class="divider"></div></li>
@@ -66,7 +68,7 @@
                 >
             </li>
             <li>
-                <a href="./demo"
+                <a href="./demo.html"
                     ><i class="material-icons left">star</i>Check out Demo</a
                 >
             </li>
@@ -111,7 +113,7 @@
                         >
                         <a
                             class="waves-effect waves-light btn-large yellow black-text"
-                            href="./demo"
+                            href="./demo.html"
                             style="font-size: large;"
                             ><i class="material-icons left">filter_2</i>Demo</a
                         >
@@ -152,6 +154,7 @@
         </div>
 
         <!-- CUSTOM JS -->
+        <script src="./scripts/responsiveTitle.js"></script>
         <script>
             $(document).ready(function () {
                 $(".fixed-action-btn").floatingActionButton();
@@ -169,6 +172,7 @@
                     onCloseEnd: null,
                     preventScrolling: true,
                 };
+                adjustNavbarTitle();
                 var instances = M.Sidenav.init(elems, options);
             });
         </script>
