@@ -35,17 +35,15 @@
         <!-- NAVBAR -->
         <nav class="red accent-3">
             <div class="nav-wrapper container">
-                <a href="./index.html" class="brand-logo center white-text"
+                <a href="./index" class="brand-logo center white-text"
                     >UIMS Assistant</a
                 >
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"
                     ><i class="material-icons">menu</i></a
                 >
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li>
-                        <a href="./demo.html"
-                            >check out <strong>DEMO</strong></a
-                        >
+                    <li class="yellow">
+                        <a class="black-text" href="./demo">check out demo</a>
                     </li>
                 </ul>
             </div>
@@ -55,12 +53,31 @@
         <ul class="sidenav" id="mobile-demo">
             <li>
                 <div style="margin-top: 8px; margin-left: 12px;">
-                    <a href="./index.html">UIMS Assistant</a>
+                    <a href="./index">UIMS Assistant</a>
                 </div>
             </li>
             <li><div class="divider"></div></li>
             <li>
-                <a href="./demo.html">check out <strong>DEMO</strong></a>
+                <a
+                    href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
+                    target="_blank"
+                    ><i class="material-icons left">file_download</i>Download
+                    Extension</a
+                >
+            </li>
+            <li>
+                <a href="./demo"
+                    ><i class="material-icons left">star</i>Check out Demo</a
+                >
+            </li>
+            <li>
+                <a
+                    class="modal-trigger"
+                    data-target="modal-premium"
+                    style="cursor: pointer;"
+                    ><i class="material-icons left">attach_money</i>Go
+                    Premium</a
+                >
             </li>
         </ul>
 
@@ -85,13 +102,25 @@
 
                     <div class="btnsHolder">
                         <a
+                            class="waves-effect waves-light btn-large red accent-3"
+                            href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
+                            target="_blank"
+                            style="font-size: large;"
+                            ><i class="material-icons left">filter_1</i
+                            >Extension</a
+                        >
+                        <a
+                            class="waves-effect waves-light btn-large yellow black-text"
+                            href="./demo"
+                            style="font-size: large;"
+                            ><i class="material-icons left">filter_2</i>Demo</a
+                        >
+                        <a
                             class="waves-effect waves-light btn-large red accent-3 modal-trigger"
                             data-target="modal-premium"
                             style="font-size: large;"
-                            ><i class="material-icons left">star</i>Go Premium<i
-                                class="material-icons right"
-                                >star</i
-                            ></a
+                            ><i class="material-icons left">filter_3</i>Go
+                            Premium</a
                         >
                     </div>
                 </div>
@@ -123,10 +152,11 @@
         </div>
 
         <!-- CUSTOM JS -->
-
-        <script src="./scripts/index.js"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            $(document).ready(function () {
+                $(".fixed-action-btn").floatingActionButton();
+                $(".tooltipped").tooltip();
+                $(".modal").modal();
                 var elems = document.querySelectorAll(".sidenav");
                 var options = {
                     edge: "left",

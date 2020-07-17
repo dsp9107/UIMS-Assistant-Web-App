@@ -20,9 +20,33 @@ body > div.container {
     border-width: thin;
 }
 
-.btnsHolder {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+.btnsHolder a {
+    width: 240px;
+}
+
+@media screen and (min-width: 1200px) {
+    .btnsHolder {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        /* align-items: center; */
+    }
+
+    .btnsHolder a {
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .btnsHolder {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .btnsHolder a {
+        margin-top: 2%;
+        margin-bottom: 2%;
+    }
 }

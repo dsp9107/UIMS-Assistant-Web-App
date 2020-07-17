@@ -49,20 +49,27 @@
         <!-- NAVBAR -->
         <nav class="red accent-3">
             <div class="nav-wrapper container">
-                <a href="./" class="brand-logo white-text">UIMS Assistant</a>
+                <a href="./index" class="brand-logo white-text"
+                    >UIMS Assistant</a
+                >
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"
+                    ><i class="material-icons">menu</i></a
+                >
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li class="logged-out" style="display: none;">
-                        <a class="modal-trigger" data-target="modal-premium"
-                            >Go Premium</a
+                    <li
+                        id="download-btn"
+                        class="tooltipped yellow"
+                        data-position="left"
+                        data-tooltip="Download Extension"
+                        style="display: none;"
+                    >
+                        <a
+                            target="_blank"
+                            href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
+                            ><i class="material-icons black-text"
+                                >file_download</i
+                            ></a
                         >
-                    </li>
-                    <li class="logged-out" style="display: none;">
-                        <a class="modal-trigger" data-target="modal-login"
-                            >Login</a
-                        >
-                    </li>
-                    <li class="logged-in" style="display: none;">
-                        <a class="logout-fx">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -72,20 +79,22 @@
         <ul class="sidenav" id="mobile-demo">
             <li>
                 <div style="margin-top: 8px; margin-left: 12px;">
-                    <a href="./">UIMS Assistant</a>
+                    <a href="./index">UIMS Assistant - DEMO</a>
                 </div>
             </li>
             <li><div class="divider"></div></li>
-            <li class="logged-out" style="display: none;">
-                <a class="modal-trigger" data-target="modal-premium"
-                    >Go Premium</a
+            <li
+                id="download-btn"
+                class="tooltipped"
+                data-position="left"
+                data-tooltip="Download Extension"
+            >
+                <a
+                    target="_blank"
+                    href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
+                    ><i class="material-icons left">file_download</i>Download
+                    Extension</a
                 >
-            </li>
-            <li class="logged-out" style="display: none;">
-                <a class="modal-trigger" data-target="modal-login">Login</a>
-            </li>
-            <li class="logged-in" style="display: none;">
-                <a class="logout-fx">Logout</a>
             </li>
         </ul>
 
@@ -167,38 +176,6 @@
                 </div>
             </div>
 
-            <!-- <div class="row">
-                <div class="choice btnsHolder">
-                    <a
-                        class="waves-effect waves-light btn-large red accent-3 modal-trigger"
-                        data-target="modal-premium"
-                        style="font-size: large;"
-                        ><i class="material-icons left">star</i>Load dummy
-                        data<i class="material-icons right">star</i></a
-                    >
-                    <button
-                        onclick="chrome.webstore.install()"
-                        id="install-button"
-                    >
-                        Add to Chrome
-                    </button>
-                    <script>
-                        if (document.getElementById("extension-is-installed")) {
-                            document.getElementById(
-                                "install-button"
-                            ).style.display = "none";
-                        }
-                    </script>
-                    <a
-                        class="waves-effect waves-light btn-large red accent-3 modal-trigger"
-                        data-target="modal-premium"
-                        style="font-size: large;"
-                        ><i class="material-icons left">star</i>Load from
-                        extension<i class="material-icons right">star</i></a
-                    >
-                </div>
-            </div> -->
-
             <div class="row subCardsHeader">
                 <div class="col s12 title" style="display: none;">
                     <span class="flow-text">Here's the detailed breakup</span>
@@ -247,13 +224,8 @@
             </div>
         </div>
 
-        <script>
-            $(document).ready(function () {
-                $(".fixed-action-btn").floatingActionButton();
-                $(".tooltipped").tooltip();
-                $(".modal").modal();
-            });
-        </script>
+        <!-- CUSTOM JS -->
+        <script src="./scripts/demoAttendance.js"></script>
         <script src="./scripts/demo.js"></script>
     </body>
 </html>

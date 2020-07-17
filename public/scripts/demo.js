@@ -1,44 +1,71 @@
 $(document).ready(function () {
     $(".fixed-action-btn").floatingActionButton();
     $(".tooltipped").tooltip();
+    $(".modal").modal();
+    var elems = document.querySelectorAll(".sidenav");
+    var options = {
+        edge: "left",
+        draggable: true,
+        inDuration: 250,
+        outDuration: 200,
+        onOpenStart: null,
+        onOpenEnd: null,
+        onCloseStart: null,
+        onCloseEnd: null,
+        preventScrolling: true,
+    };
+    var instances = M.Sidenav.init(elems, options);
+    return lightItUp();
 });
 
-$(document).ready(lightItUp);
+function isChrome() {
+    /*
+        Browser Detection
+        Thanks to https://stackoverflow.com/a/9851769
+    */
 
-function extractFromExtension() {
-    try {
-        var id = "cangcekcplpijlabheaiojeddamgooeh";
-        chrome.runtime.sendMessage(id, null, function (response) {
-            if (response && response.version == 1) {
-                localStorage.setItem(
-                    "attendanceData",
-                    JSON.stringify({
-                        desc: "data",
-                        data: cleanDataFetched(response.data),
-                        version: 2,
-                    })
-                );
-                location.reload();
-            } else {
-                setTimeout(() => {
-                    console.log(
-                        "No data has been extracted. Extract data first using the extension."
-                    );
-                    $("#loader").hide();
-                    $(".subCardsHeader").hide();
-                    $(".instructions").show();
-                }, 1200);
-            }
-        });
-    } catch (e) {
-        console.log(e);
-        setTimeout(() => {
-            console.log("No local copy found. Load data using the extension.");
-            $("#loader").hide();
-            $(".subCardsHeader").hide();
-            $(".instructions").show();
-        }, 1200);
-    }
+    // Opera 8.0+
+    var isOpera =
+        (!!window.opr && !!opr.addons) ||
+        !!window.opera ||
+        navigator.userAgent.indexOf(" OPR/") >= 0;
+
+    // Firefox 1.0+
+    var isFirefox = typeof InstallTrigger !== "undefined";
+
+    // Safari 3.0+ "[object HTMLElementConstructor]"
+    var isSafari =
+        /constructor/i.test(window.HTMLElement) ||
+        (function (p) {
+            return p.toString() === "[object SafariRemoteNotification]";
+        })(
+            !window.safari ||
+                (typeof safari !== "undefined" && safari.pushNotification)
+        );
+
+    // Internet Explorer 6-11
+    var isIE = /*@cc_on!@*/ false || !!document.documentMode;
+
+    // Edge 20+
+    var isEdge = !isIE && !!window.StyleMedia;
+
+    // Chrome 1 - 79
+    var isChrome =
+        !!window.chrome &&
+        (!!window.chrome.webstore || !!window.chrome.runtime);
+
+    // Edge (based on chromium) detection
+    var isEdgeChromium = isChrome && navigator.userAgent.indexOf("Edg") != -1;
+
+    return (
+        !isOpera &&
+        !isFirefox &&
+        !isSafari &&
+        !isIE &&
+        !isEdge &&
+        isChrome &&
+        !isEdgeChromium
+    );
 }
 
 function refreshView() {
@@ -47,40 +74,168 @@ function refreshView() {
         left: 0,
         behavior: "smooth",
     });
-    M.FloatingActionButton.getInstance($(".fixed-action-btn")).close();
+    M.Toast.dismissAll();
     $(".tooltipped").tooltip();
     $(".instructions").hide();
+    // $("#download-btn").hide();
     $("#loader").show();
     $("#myChart").hide();
+    $(".subCardsHeader .title").hide();
     $(".subCardsHeader .progress").show();
     $(".moreThan90, .safeBetween, .lessThan75").empty();
     $(".moreThan90, .safeBetween, .lessThan75").hide();
-    localStorage.setItem(
-        "attendanceData",
-        JSON.stringify({
-            desc: "data",
-            data: cleanDataFetched(response.data),
-            version: 2,
-        })
-    );
-    // location.reload();
-    lightItUp();
+    return lightItUp();
 }
 
 function lightItUp() {
-    let attendanceData = JSON.parse(localStorage.getItem("attendanceData"));
-    if (attendanceData && attendanceData.desc == "data") {
-        console.log("Local copy found. Generating reports.");
+    if (isChrome()) {
+        let attendanceData = JSON.parse(
+            sessionStorage.getItem("attendanceData")
+        );
+        if (attendanceData && attendanceData.desc == "actual") {
+            console.log("Local copy found. Generating reports.");
+            if (attendanceData.version == 1) {
+                sessionStorage.setItem(
+                    "attendanceData",
+                    JSON.stringify({
+                        desc: "actual",
+                        data: cleanDataFetched(attendanceData.data),
+                        version: 2,
+                    })
+                );
+                return lightItUp();
+            }
+            setTimeout(() => {
+                generateChart(prep(attendanceData.data));
+                $("#loader").hide();
+                $("#myChart").show();
+            }, 1200);
+            setTimeout(() => {
+                setupSubjectCards();
+                $(".subCardsHeader .progress").hide();
+                $(".subCardsHeader .title").show();
+                $(".moreThan90, .safeBetween, .lessThan75").show();
+                M.toast({
+                    html: "attendance data loaded",
+                });
+            }, 1200);
+        } else if (attendanceData && attendanceData.desc == "demo") {
+            console.log("Dummy data found. Generating reports.");
+            if (attendanceData.version == 1) {
+                sessionStorage.setItem(
+                    "attendanceData",
+                    JSON.stringify({
+                        desc: "demo",
+                        data: cleanDataFetched(demoAttendance.data),
+                        version: 2,
+                    })
+                );
+                return lightItUp();
+            }
+            setTimeout(() => {
+                generateChart(prep(attendanceData.data));
+                $("#loader").hide();
+                $("#myChart").show();
+            }, 1200);
+            setTimeout(() => {
+                setupSubjectCards();
+                $(".subCardsHeader .progress").hide();
+                $(".subCardsHeader .title").show();
+                $(".moreThan90, .safeBetween, .lessThan75").show();
+                M.toast({
+                    html: "dummy data loaded",
+                });
+            }, 1200);
+        } else {
+            try {
+                var id = "cangcekcplpijlabheaiojeddamgooeh";
+                chrome.runtime.sendMessage(id, null, function (response) {
+                    if (response && response.version == 1) {
+                        sessionStorage.setItem(
+                            "attendanceData",
+                            JSON.stringify({
+                                desc: "actual",
+                                data: cleanDataFetched(response.data),
+                                version: 2,
+                            })
+                        );
+                        return lightItUp();
+                    } else if (response && response.data == undefined) {
+                        console.log(
+                            "No data has been extracted. Extract data using the extension, first."
+                        );
+                        sessionStorage.setItem(
+                            "attendanceData",
+                            JSON.stringify({
+                                desc: "demo",
+                                data: cleanDataFetched(demoAttendance.data),
+                                version: 2,
+                            })
+                        );
+                        return lightItUp();
+                    } else if (chrome.runtime.lastError) {
+                        $("#download-btn").show();
+                        console.log(
+                            "UIMS Assistant Chrome Extension not installed. Loading dummy data."
+                        );
+                        sessionStorage.setItem(
+                            "attendanceData",
+                            JSON.stringify({
+                                desc: "demo",
+                                data: cleanDataFetched(demoAttendance.data),
+                                version: 2,
+                            })
+                        );
+                        return lightItUp();
+                    } else {
+                        $("#download-btn").show();
+                        M.toast({
+                            html: "check console",
+                        });
+                        console.log("contact @dsp9107");
+                        sessionStorage.setItem(
+                            "attendanceData",
+                            JSON.stringify({
+                                desc: "demo",
+                                data: cleanDataFetched(demoAttendance.data),
+                                version: 2,
+                            })
+                        );
+                        return lightItUp();
+                    }
+                });
+            } catch (e) {
+                $("#download-btn").show();
+                console.log(e);
+                M.toast({
+                    html: "check console",
+                });
+                sessionStorage.setItem(
+                    "attendanceData",
+                    JSON.stringify({
+                        desc: "demo",
+                        data: cleanDataFetched(demoAttendance.data),
+                        version: 2,
+                    })
+                );
+                return lightItUp();
+            }
+        }
+    } else {
+        // $("#download-btn").hide();
+        let attendanceData = JSON.parse(
+            sessionStorage.getItem("attendanceData")
+        );
         if (attendanceData.version == 1) {
-            localStorage.setItem(
+            sessionStorage.setItem(
                 "attendanceData",
                 JSON.stringify({
-                    desc: "data",
-                    data: cleanDataFetched(attendanceData.data),
+                    desc: "demo",
+                    data: cleanDataFetched(demoAttendance.data),
                     version: 2,
                 })
             );
-            location.reload();
+            return lightItUp();
         }
         setTimeout(() => {
             generateChart(prep(attendanceData.data));
@@ -92,43 +247,10 @@ function lightItUp() {
             $(".subCardsHeader .progress").hide();
             $(".subCardsHeader .title").show();
             $(".moreThan90, .safeBetween, .lessThan75").show();
-        }, 1200);
-    } else {
-        try {
-            var id = "cangcekcplpijlabheaiojeddamgooeh";
-            chrome.runtime.sendMessage(id, null, function (response) {
-                if (response && response.version == 1) {
-                    localStorage.setItem(
-                        "attendanceData",
-                        JSON.stringify({
-                            desc: "data",
-                            data: cleanDataFetched(response.data),
-                            version: 2,
-                        })
-                    );
-                    location.reload();
-                } else {
-                    setTimeout(() => {
-                        console.log(
-                            "No data has been extracted. Extract data first using the extension."
-                        );
-                        $("#loader").hide();
-                        $(".subCardsHeader").hide();
-                        $(".instructions").show();
-                    }, 1200);
-                }
+            M.toast({
+                html: "dummy data loaded.",
             });
-        } catch (e) {
-            console.log(e);
-            setTimeout(() => {
-                console.log(
-                    "No local copy found. Load data using the extension."
-                );
-                $("#loader").hide();
-                $(".subCardsHeader").hide();
-                $(".instructions").show();
-            }, 1200);
-        }
+        }, 1200);
     }
 }
 
@@ -257,16 +379,16 @@ function generateChart(param) {
                 callbacks: {
                     title: function (tooltipItem) {
                         return JSON.parse(
-                            localStorage.getItem("attendanceData")
+                            sessionStorage.getItem("attendanceData")
                         ).data[tooltipItem[0].index].subject.title;
                     },
                     label: function (tooltipItem) {
                         return `${tooltipItem.yLabel}% : attended ${
-                            JSON.parse(localStorage.getItem("attendanceData"))
+                            JSON.parse(sessionStorage.getItem("attendanceData"))
                                 .data[tooltipItem.index].attendance.eligible
                                 .attd
                         } out of ${
-                            JSON.parse(localStorage.getItem("attendanceData"))
+                            JSON.parse(sessionStorage.getItem("attendanceData"))
                                 .data[tooltipItem.index].attendance.eligible
                                 .delv
                         } lectures`;
@@ -310,7 +432,7 @@ function setupSubjectCards() {
 
     // LOAD DATA
 
-    JSON.parse(localStorage.getItem("attendanceData")).data.forEach((sub) => {
+    JSON.parse(sessionStorage.getItem("attendanceData")).data.forEach((sub) => {
         let a = parseInt(sub.attendance.eligible.attd, 10),
             d = parseInt(sub.attendance.eligible.delv, 10),
             p = parseInt(sub.attendance.eligible.perc, 10);
@@ -373,6 +495,8 @@ function setupSubjectCards() {
             </div>
             `);
     });
+
+    $(".moreThan90:empty, .safeBetween:empty, .lessThan75:empty").remove();
 
     // ATTACH HEADINGS
 

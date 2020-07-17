@@ -1,4 +1,4 @@
-let demoAttendance = {
+const demoAttendance = {
     data: [
         [
             "Course Code",
