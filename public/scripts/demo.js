@@ -1,3 +1,5 @@
+const extID = "cangcekcplpijlabheaiojeddamgooeh";
+
 $(document).ready(function () {
     $(".fixed-action-btn").floatingActionButton();
     $(".tooltipped").tooltip();
@@ -15,11 +17,14 @@ $(document).ready(function () {
         preventScrolling: true,
     };
     var instances = M.Sidenav.init(elems, options);
+    extInstalled().catch((e) => $("#download-btn").show());
     adjustNavbarTitle();
     return lightItUp();
 });
 
-function isChrome() {
+// environment related
+
+function onChromeBasedBrowser() {
     /*
         Browser Detection
         Thanks to https://stackoverflow.com/a/9851769
@@ -58,212 +63,60 @@ function isChrome() {
     // Edge (based on chromium) detection
     var isEdgeChromium = isChrome && navigator.userAgent.indexOf("Edg") != -1;
 
-    return (
-        !isOpera &&
-        !isFirefox &&
-        !isSafari &&
-        !isIE &&
-        !isEdge &&
-        isChrome &&
-        !isEdgeChromium
+    return new Promise(function (resolve, reject) {
+        if (
+            !isOpera &&
+            !isFirefox &&
+            !isSafari &&
+            !isIE &&
+            !isEdge &&
+            isChrome &&
+            !isEdgeChromium
+        )
+            resolve();
+        else reject("not a chrome based browser");
+    });
+}
+
+function extInstalled() {
+    return new Promise(function (resolve, reject) {
+        chrome.runtime.sendMessage(extID, "ping", function (response) {
+            if (response && response === "pong") {
+                resolve("extension installed");
+            } else if (chrome.runtime.lastError) {
+                reject("extension not installed");
+            } else {
+                reject("extension not installed");
+            }
+        });
+    });
+}
+
+// data related
+
+function storeData(desc, data) {
+    sessionStorage.setItem(
+        "attendanceData",
+        JSON.stringify({
+            desc,
+            data: cleanDataFetched(data),
+            version: 2,
+        })
     );
 }
 
-function refreshView() {
-    window.scroll({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
+function fetchAttendanceData() {
+    return new Promise(function (resolve, reject) {
+        chrome.runtime.sendMessage(extID, "attendanceData", function (
+            response
+        ) {
+            if (response && response.version == 1) {
+                resolve(response);
+            } else {
+                reject("no data extracted");
+            }
+        });
     });
-    M.Toast.dismissAll();
-    $(".tooltipped").tooltip();
-    $(".instructions").hide();
-    $("#loader").show();
-    $("#myChart").hide();
-    $(".subCardsHeader .title").hide();
-    $(".subCardsHeader .progress").show();
-    $(".moreThan90, .safeBetween, .lessThan75").empty();
-    $(".moreThan90, .safeBetween, .lessThan75").hide();
-    return lightItUp();
-}
-
-function lightItUp() {
-    if (isChrome()) {
-        let attendanceData = JSON.parse(
-            sessionStorage.getItem("attendanceData")
-        );
-        if (attendanceData && attendanceData.desc == "actual") {
-            console.log("Local copy found. Generating reports.");
-            if (attendanceData.version == 1) {
-                sessionStorage.setItem(
-                    "attendanceData",
-                    JSON.stringify({
-                        desc: "actual",
-                        data: cleanDataFetched(attendanceData.data),
-                        version: 2,
-                    })
-                );
-                return lightItUp();
-            }
-            setTimeout(() => {
-                generateChart();
-                $("#loader").hide();
-                $("#myChart").show();
-            }, 1200);
-            setTimeout(() => {
-                setupSubjectCards();
-                $(".subCardsHeader .progress").hide();
-                $(".subCardsHeader .title").show();
-                $(".moreThan90, .safeBetween, .lessThan75").show();
-                M.toast({
-                    html: "attendance data loaded",
-                    displayLength: 3000,
-                });
-            }, 1200);
-        } else if (attendanceData && attendanceData.desc == "demo") {
-            console.log("Dummy data found. Generating reports.");
-            if (attendanceData.version == 1) {
-                sessionStorage.setItem(
-                    "attendanceData",
-                    JSON.stringify({
-                        desc: "demo",
-                        data: cleanDataFetched(demoAttendance.data),
-                        version: 2,
-                    })
-                );
-                return lightItUp();
-            }
-            setTimeout(() => {
-                generateChart();
-                $("#loader").hide();
-                $("#myChart").show();
-            }, 1200);
-            setTimeout(() => {
-                setupSubjectCards();
-                $(".subCardsHeader .progress").hide();
-                $(".subCardsHeader .title").show();
-                $(".moreThan90, .safeBetween, .lessThan75").show();
-                M.toast({
-                    html: "dummy data loaded",
-                    displayLength: 3000,
-                });
-            }, 1200);
-        } else {
-            try {
-                var id = "cangcekcplpijlabheaiojeddamgooeh";
-                chrome.runtime.sendMessage(id, null, function (response) {
-                    if (response && response.version == 1) {
-                        sessionStorage.setItem(
-                            "attendanceData",
-                            JSON.stringify({
-                                desc: "actual",
-                                data: cleanDataFetched(response.data),
-                                version: 2,
-                            })
-                        );
-                        return lightItUp();
-                    } else if (response && response.data == undefined) {
-                        console.log(
-                            "No data has been extracted. Extract data using the extension, first."
-                        );
-                        sessionStorage.setItem(
-                            "attendanceData",
-                            JSON.stringify({
-                                desc: "demo",
-                                data: cleanDataFetched(demoAttendance.data),
-                                version: 2,
-                            })
-                        );
-                        return lightItUp();
-                    } else if (chrome.runtime.lastError) {
-                        $("#download-btn").show();
-                        console.log(
-                            "UIMS Assistant Chrome Extension not installed. Loading dummy data."
-                        );
-                        sessionStorage.setItem(
-                            "attendanceData",
-                            JSON.stringify({
-                                desc: "demo",
-                                data: cleanDataFetched(demoAttendance.data),
-                                version: 2,
-                            })
-                        );
-                        return lightItUp();
-                    } else {
-                        $("#download-btn").show();
-                        M.toast({
-                            html: "check console",
-                            displayLength: 3000,
-                        });
-                        console.log("contact @dsp9107");
-                        sessionStorage.setItem(
-                            "attendanceData",
-                            JSON.stringify({
-                                desc: "demo",
-                                data: cleanDataFetched(demoAttendance.data),
-                                version: 2,
-                            })
-                        );
-                        return lightItUp();
-                    }
-                });
-            } catch (e) {
-                $("#download-btn").show();
-                console.log(e);
-                M.toast({
-                    html: "check console",
-                    displayLength: 3000,
-                });
-                sessionStorage.setItem(
-                    "attendanceData",
-                    JSON.stringify({
-                        desc: "demo",
-                        data: cleanDataFetched(demoAttendance.data),
-                        version: 2,
-                    })
-                );
-                return lightItUp();
-            }
-        }
-    } else {
-        let attendanceData = JSON.parse(
-            sessionStorage.getItem("attendanceData")
-        );
-        if (attendanceData && attendanceData.version == 1) {
-            sessionStorage.setItem(
-                "attendanceData",
-                JSON.stringify({
-                    desc: "demo",
-                    data: cleanDataFetched(demoAttendance.data),
-                    version: 2,
-                })
-            );
-        } else {
-            sessionStorage.setItem(
-                "attendanceData",
-                JSON.stringify({
-                    desc: "demo",
-                    data: cleanDataFetched(demoAttendance.data),
-                    version: 2,
-                })
-            );
-        }
-        setTimeout(() => {
-            generateChart();
-            $("#loader").hide();
-            $("#myChart").show();
-        }, 1200);
-        setTimeout(() => {
-            setupSubjectCards();
-            $(".subCardsHeader .progress").hide();
-            $(".subCardsHeader .title").show();
-            $(".moreThan90, .safeBetween, .lessThan75").show();
-            M.toast({
-                html: "dummy data loaded",
-                displayLength: 3000,
-            });
-        }, 1200);
-    }
 }
 
 function shortenSubjectName(subName) {
@@ -305,6 +158,8 @@ function cleanDataFetched(attendanceData) {
     }
     return cleaned;
 }
+
+// chart related
 
 function prep(attendance) {
     var labels = [],
@@ -413,13 +268,14 @@ function generateChart() {
     });
 }
 
+// subject cards related
+
 function presents(a, d, p, t) {
     let s = 0;
     while (p < t) {
         a += 1;
         d += 1;
         p = (a / d) * 100;
-        // p = round((a / d) * 100, 2);
         s += 1;
     }
     return s;
@@ -430,7 +286,6 @@ function absents(a, d, p, t) {
     while (true) {
         d += 1;
         p = (a / d) * 100;
-        // p = round((a / d) * 100, 2);
         if (p > t) {
             s += 1;
             continue;
@@ -545,4 +400,74 @@ function setupSubjectCards() {
             $(this).removeClass("darken-2");
         }
     );
+}
+
+// view related
+
+var hideChart = () => {
+    $("#myChart").hide();
+    $("#loader").show();
+};
+
+var showChart = () => {
+    $("#loader").hide();
+    $("#myChart").show();
+};
+
+var resetSubjectCards = () => {
+    $(".moreThan90, .safeBetween, .lessThan75").empty();
+    $(".moreThan90, .safeBetween, .lessThan75").hide();
+    $(".subCardsHeader .title").hide();
+    $(".subCardsHeader .progress").show();
+};
+
+var showSubjectCards = () => {
+    $(".subCardsHeader .progress").hide();
+    $(".subCardsHeader .title").show();
+    $(".moreThan90, .safeBetween, .lessThan75").show();
+};
+
+function loadEverything(msg) {
+    setTimeout(() => {
+        generateChart();
+        showChart();
+    }, 1200);
+    setTimeout(() => {
+        setupSubjectCards();
+        showSubjectCards();
+        M.toast({
+            html: msg,
+            displayLength: 3000,
+        });
+    }, 1200);
+}
+
+function lightItUp() {
+    onChromeBasedBrowser()
+        .then(extInstalled)
+        .then(fetchAttendanceData)
+        .then((attendanceData) => storeData("actual", attendanceData.data))
+        .then(() => {
+            loadEverything("attendance data loaded");
+        })
+        .catch((e) => {
+            console.log(e);
+            if (e.message === "extension not installed")
+                $("#download-btn").show();
+            storeData("demo", demoAttendance.data);
+            loadEverything("dummy data loaded");
+        });
+}
+
+function refreshView() {
+    window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+    });
+    M.Toast.dismissAll();
+    $(".tooltipped").tooltip();
+    resetSubjectCards();
+    hideChart();
+    return lightItUp();
 }
