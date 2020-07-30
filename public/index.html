@@ -5,30 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/png" href="./icons/favicon.png" />
         <title>UIMS Assistant</title>
-
-        <!-- JQUERY -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-        <!-- MATERIALIZE CSS -->
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+            integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A=="
+            crossorigin="anonymous"
         />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-        <!-- MATERIAL ICONS -->
         <link
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"
         />
-
-        <!-- UBUNTU FONT -->
         <link
             href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"
             rel="stylesheet"
         />
-
-        <!-- CUSTOM CSS -->
         <link rel="stylesheet" type="text/css" href="./styles/style.css" />
     </head>
     <body>
@@ -53,9 +43,14 @@
 
         <!-- SIDENAV -->
         <ul class="sidenav" id="mobile-demo">
-            <li>
-                <div style="margin-top: 8px; margin-left: 12px;">
-                    <a href="./index.html">UIMS Assistant</a>
+            <li class="red accent-3 white-text">
+                <div
+                    class="red accent-3 white-text"
+                    style="margin-top: 8px; margin-left: 12px;"
+                >
+                    <a class="red accent-3 white-text" href="./index.html"
+                        >UIMS Assistant</a
+                    >
                 </div>
             </li>
             <li><div class="divider"></div></li>
@@ -83,52 +78,6 @@
             </li>
         </ul>
 
-        <!-- CONTENT -->
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h3>UIMS Assistant</h3>
-                    <br /><br />
-                    <span class="flow-text">
-                        <strong>PROMO CONTENT HERE :</strong> Lorem ipsum dolor
-                        sit amet, consectetur adipiscing elit. Vestibulum vitae
-                        ipsum quis dolor finibus commodo sed eget tortor. Cras
-                        sollicitudin congue tellus eu auctor. Sed bibendum
-                        egestas facilisis. Aenean tortor tellus, semper eget
-                        pellentesque finibus, porttitor ut ex. Donec mattis
-                        aliquam metus et venenatis. Nunc sed mattis ligula, nec
-                        dapibus nulla. <br /><br />
-                        <strong>CATCHY PHRASE HERE :</strong> Lorem ipsum dolor
-                        sit amet, consectetur adipiscing elit. <br /><br /><br
-                    /></span>
-
-                    <div class="btnsHolder">
-                        <a
-                            class="waves-effect waves-light btn-large red accent-3"
-                            href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
-                            target="_blank"
-                            style="font-size: large;"
-                            ><i class="material-icons left">filter_1</i
-                            >Extension</a
-                        >
-                        <a
-                            class="waves-effect waves-light btn-large yellow black-text"
-                            href="./demo.html"
-                            style="font-size: large;"
-                            ><i class="material-icons left">filter_2</i>Demo</a
-                        >
-                        <a
-                            class="waves-effect waves-light btn-large red accent-3 modal-trigger"
-                            data-target="modal-premium"
-                            style="font-size: large;"
-                            ><i class="material-icons left">filter_3</i>Go
-                            Premium</a
-                        >
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- PREMIUM MODAL -->
         <div id="modal-premium" class="modal">
             <div class="modal-content">
@@ -153,10 +102,370 @@
             </div>
         </div>
 
-        <!-- CUSTOM JS -->
+        <!-- CONTENT -->
+        <div class="container">
+            <div class="section">
+                <div class="row" style="margin-top: 1rem;">
+                    <div class="col s12">
+                        <h3>
+                            Having trouble maintaining attendence?
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12 l6">
+                        <span class="flow-text"
+                            ><strong>PROMO CONTENT HERE</strong> : Lorem ipsum
+                            dolor sit amet, consectetur adipiscing elit.
+                            Vestibulum vitae ipsum quis dolor finibus commodo
+                            sed eget tortor. Cras sollicitudin congue tellus eu
+                            auctor. Sed bibendum egestas facilisis. Aenean
+                            tortor tellus, semper eget pellentesque finibus,
+                            porttitor ut ex. Donec mattis aliquam metus et
+                            venenatis. Nunc sed mattis ligula, nec dapibus
+                            nulla. <br /><br />
+                        </span>
+                    </div>
+                    <div class="col s12 l6">
+                        <span class="flow-text"
+                            >Have you checked out our products yet?</span
+                        >
+
+                        <ul
+                            class="collapsible popout"
+                            style="margin-top: 2rem;"
+                        >
+                            <li class="active">
+                                <div class="collapsible-header">
+                                    <i class="material-icons">extension</i>
+                                    Chrome Extension
+                                    <span
+                                        class="new badge yellow black-text"
+                                        data-badge-caption="v1.1.1"
+                                    ></span>
+                                </div>
+                                <div class="collapsible-body">
+                                    <p>
+                                        You can extract your attendance data
+                                        from UIMS Attendance page and load it
+                                        onto our demo page to see your
+                                        attendance beautifully visualised.
+                                    </p>
+                                    <a
+                                        class="waves-effect waves-light btn-flat disabled grey lighten-4 grey-text text-darken-3"
+                                        href="#section-extension"
+                                        style="
+                                            font-size: large;
+                                            margin-top: 1rem;
+                                        "
+                                        >Scroll Down</a
+                                    >
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header">
+                                    <i class="material-icons"
+                                        >desktop_windows</i
+                                    >
+                                    Desktop Application
+                                    <span
+                                        class="new badge black yellow-text"
+                                        data-badge-caption="testing"
+                                    ></span>
+                                </div>
+                                <div class="collapsible-body">
+                                    <p>
+                                        Just login with your UIMS credentials in
+                                        our desktop app and we'll take care of
+                                        fetching your attendance data and
+                                        generating insights for you so you can
+                                        track your attendance goals.
+                                    </p>
+                                    <a
+                                        class="waves-effect waves-light btn-flat disabled grey lighten-4 grey-text text-darken-3"
+                                        href="#section-extension"
+                                        style="
+                                            font-size: large;
+                                            margin-top: 1rem;
+                                        "
+                                        >Coming soon</a
+                                    >
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section" id="section-extension">
+                <div class="row">
+                    <div class="col s12 m7 l8 xl9" style="margin: 2rem 0;">
+                        <h3 style="margin: 0;">On a Chrome Browser?</h3>
+                    </div>
+
+                    <div class="col s12 m5 l4 xl3" style="margin: 2rem 0;">
+                        <a
+                            class="cta-btn waves-effect waves-light btn-large red accent-3"
+                            href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
+                            target="_blank"
+                            style="font-size: large;"
+                            ><i class="material-icons left yellow black-text"
+                                >file_download</i
+                            >Extension</a
+                        >
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s1">
+                        <span class="flow-text">1</span>
+                    </div>
+                    <div class="col s11">
+                        <span class="flow-text">
+                            Download our
+                            <strong>Chrome Extension</strong> in your
+                            browser.</span
+                        >
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s1">
+                        <span class="flow-text">2</span>
+                    </div>
+                    <div class="col s11">
+                        <span class="flow-text">
+                            Login to <strong>UIMS</strong> > Go to Attendance
+                            Page</span
+                        >
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s1">
+                        <span class="flow-text">3</span>
+                    </div>
+                    <div class="col s11">
+                        <span class="flow-text">
+                            <i class="material-icons left">mouse</i>
+                            Right Click >
+                            <strong>Extract Attendance Data</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s1">
+                        <span class="flow-text">4</span>
+                    </div>
+                    <div class="col s11">
+                        <span class="flow-text">
+                            Click on <strong>YES</strong> to see visualisation
+                            of your attendance data.<br /><br />
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section">
+                <div class="row">
+                    <div class="col s12 m7 l8 xl9" style="margin: 2rem 0;">
+                        <h3 style="margin: 0;">Too much hassle?</h3>
+                    </div>
+
+                    <div class="col s12 m5 l4 xl3" style="margin: 2rem 0;">
+                        <a
+                            class="cta-btn waves-effect waves-light btn-large red accent-3 modal-trigger"
+                            data-target="modal-premium"
+                            style="font-size: large;"
+                            ><i class="material-icons left yellow black-text"
+                                >star</i
+                            >Go Premium</a
+                        >
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12">
+                        <span class="flow-text">
+                            Oh, it's much easier with our desktop app installed
+                            on your machine.
+                            <br /><br />
+                            Yes! <strong>Machine</strong> as in Windows, Mac,
+                            Linux, whatever you have, we got you covered.
+                            <br /><br />
+                            All you have to do is just login with your
+                            <strong>UIMS credentials</strong> and that's it!
+                            <br /><br />
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section">
+                <div class="row">
+                    <div class="col s12 m7 l8 xl9" style="margin: 2rem 0;">
+                        <h3 style="margin: 0;">Wanna see how it works?</h3>
+                    </div>
+
+                    <div class="col s12 m5 l4 xl3" style="margin: 2rem 0;">
+                        <a
+                            class="cta-btn waves-effect waves-light btn-large red accent-3"
+                            href="./demo.html"
+                            style="font-size: large;"
+                            >Check out Demo</a
+                        >
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12">
+                        <span class="flow-text">
+                            You can still see how it works with the dummy data
+                            we have for demonstration purpose.
+                            <br /><br
+                        /></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section">
+                <div class="row" style="margin: 4rem 0;">
+                    <div class="col s12 center-align" style="margin: 0;">
+                        <h3 style="margin: 0;">
+                            Let's take care of that attendance!
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="page-footer red accent-3">
+            <div class="container">
+                <div class="row" style="margin-top: 0; margin-bottom: 3rem;">
+                    <div
+                        class="col s12 xl6"
+                        style="margin-top: 3rem; margin-bottom: 0;"
+                    >
+                        <h3
+                            class="white-text"
+                            style="margin-top: 0; margin-bottom: 1.6rem;"
+                        >
+                            Dhawal Singh Panwar
+                        </h3>
+                        <h5
+                            class="white-text"
+                            style="margin-top: 1rem; margin-bottom: 1rem;"
+                        >
+                            - Lead Developer
+                        </h5>
+                    </div>
+
+                    <div
+                        class="col s7 xl3"
+                        style="margin-top: 3rem; margin-bottom: 0;"
+                    >
+                        <h5 class="white-text" style="margin-top: 0;">
+                            More work at:
+                        </h5>
+                        <ul>
+                            <li>
+                                <a
+                                    class="grey-text text-lighten-3"
+                                    href="https://github.com/dsp9107"
+                                    >Github</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="grey-text text-lighten-3"
+                                    href="https://www.youtube.com/channel/UC469Gl3RdDc0Ufu-FaSInmQ"
+                                    >YouTube</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="grey-text text-lighten-3"
+                                    href="https://soundcloud.com/dsp9107"
+                                    >SoundCloud</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div
+                        class="col s5 xl3"
+                        style="margin-top: 3rem; margin-bottom: 0;"
+                    >
+                        <h5 class="white-text" style="margin-top: 0;">
+                            Social at:
+                        </h5>
+                        <ul>
+                            <li>
+                                <a
+                                    class="grey-text text-lighten-3"
+                                    href="https://linkedin.com/in/dsp9107"
+                                    >LinkedIN</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="grey-text text-lighten-3"
+                                    href="https://instagram.com/dsp9107"
+                                    >Instagram</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="grey-text text-lighten-3"
+                                    href="https://twitter.com/dsp9107"
+                                    >Twitter</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright blue-grey darken-4 white-text">
+                <div class="container yellow-text text-lighten-5">
+                    powered by
+                    <a href="https://firebase.google.com/" class="yellow-text"
+                        >Firebase</a
+                    >
+                    <a
+                        class="red-text text-accent-3 right"
+                        href="https://dhawalsinghpanwar.codes/"
+                        >@dsp9107</a
+                    >
+                </div>
+            </div>
+        </footer>
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"
+            integrity="sha512-NiWqa2rceHnN3Z5j6mSAvbwwg3tiwVNxiAQaaSMSXnRRDh5C2mk/+sKQRw8qjV1vN4nf8iK2a0b048PnHbyx+Q=="
+            crossorigin="anonymous"
+        ></script>
+
         <script src="./scripts/responsiveTitle.js"></script>
         <script>
             $(document).ready(function () {
+                $(".collapsible").collapsible();
                 $(".fixed-action-btn").floatingActionButton();
                 $(".tooltipped").tooltip();
                 $(".modal").modal();
