@@ -17,7 +17,7 @@ $(document).ready(function () {
         preventScrolling: true,
     };
     var instances = M.Sidenav.init(elems, options);
-    extInstalled().catch((e) => $("#download-btn").show());
+    extInstalled().catch((e) => $("#nav-cta-btn-download-chrome-ext").show());
     adjustNavbarTitle();
     return lightItUp();
 });

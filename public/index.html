@@ -33,7 +33,10 @@
                 >
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li class="yellow">
-                        <a class="black-text" href="./demo.html"
+                        <a
+                            id="nav-cta-btn-see-demo"
+                            class="black-text"
+                            href="./demo.html"
                             >check out demo</a
                         >
                     </li>
@@ -56,6 +59,7 @@
             <li><div class="divider"></div></li>
             <li>
                 <a
+                    id="sidenav-cta-btn-download-chrome-ext"
                     href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
                     target="_blank"
                     ><i class="material-icons left">file_download</i>Download
@@ -63,17 +67,18 @@
                 >
             </li>
             <li>
-                <a href="./demo.html"
-                    ><i class="material-icons left">star</i>Check out Demo</a
-                >
-            </li>
-            <li>
                 <a
+                    id="sidenav-cta-btn-go-premium"
                     class="modal-trigger"
                     data-target="modal-premium"
                     style="cursor: pointer;"
                     ><i class="material-icons left">attach_money</i>Go
                     Premium</a
+                >
+            </li>
+            <li>
+                <a id="sidenav-cta-btn-see-demo" href="./demo.html"
+                    ><i class="material-icons left">star</i>Check out Demo</a
                 >
             </li>
         </ul>
@@ -105,29 +110,32 @@
         <!-- CONTENT -->
         <div class="container">
             <div class="section">
-                <div class="row" style="margin-top: 1rem;">
-                    <div class="col s12">
-                        <h3>
+                <div class="row" style="margin: 2rem 0;">
+                    <div class="col s12" style="margin: 2rem 0;">
+                        <h3 style="margin: 0;">
                             Having trouble maintaining attendence?
                         </h3>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col s12 l6">
-                        <span class="flow-text"
-                            ><strong>PROMO CONTENT HERE</strong> : Lorem ipsum
-                            dolor sit amet, consectetur adipiscing elit.
-                            Vestibulum vitae ipsum quis dolor finibus commodo
-                            sed eget tortor. Cras sollicitudin congue tellus eu
-                            auctor. Sed bibendum egestas facilisis. Aenean
-                            tortor tellus, semper eget pellentesque finibus,
-                            porttitor ut ex. Donec mattis aliquam metus et
-                            venenatis. Nunc sed mattis ligula, nec dapibus
-                            nulla. <br /><br />
+                <div class="row" style="margin: 1rem 0;">
+                    <div
+                        class="col s12 l6"
+                        style="margin: 2rem 0; padding: 0 1rem;"
+                    >
+                        <span class="flow-text">
+                            Did you leave that important seminar to attend your
+                            lecture even when you had
+                            <strong>enough attendance?</strong> <br /><br />
+                            or did you leave your lecture for that seminar and
+                            it led you to <strong>detention?</strong>
+                            <br /><br />
+                            or your friends are visiting the planetarium you
+                            want to visit and you're attending lectures despite
+                            <strong>100% attendance?</strong>
                         </span>
                     </div>
-                    <div class="col s12 l6">
+                    <div class="col s12 l6" style="margin: 2rem 0;">
                         <span class="flow-text"
                             >Have you checked out our products yet?</span
                         >
@@ -137,7 +145,10 @@
                             style="margin-top: 2rem;"
                         >
                             <li class="active">
-                                <div class="collapsible-header">
+                                <div
+                                    class="collapsible-header"
+                                    id="landing-collapsible-chrome-ext"
+                                >
                                     <i class="material-icons">extension</i>
                                     Chrome Extension
                                     <span
@@ -164,7 +175,10 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="collapsible-header">
+                                <div
+                                    class="collapsible-header"
+                                    id="landing-collapsible-desktop-app"
+                                >
                                     <i class="material-icons"
                                         >desktop_windows</i
                                     >
@@ -208,6 +222,7 @@
 
                     <div class="col s12 m5 l4 xl3" style="margin: 2rem 0;">
                         <a
+                            id="landing-cta-btn-download-chrome-ext"
                             class="cta-btn waves-effect waves-light btn-large red accent-3"
                             href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
                             target="_blank"
@@ -280,6 +295,7 @@
 
                     <div class="col s12 m5 l4 xl3" style="margin: 2rem 0;">
                         <a
+                            id="landing-cta-btn-go-premium"
                             class="cta-btn waves-effect waves-light btn-large red accent-3 modal-trigger"
                             data-target="modal-premium"
                             style="font-size: large;"
@@ -317,6 +333,7 @@
 
                     <div class="col s12 m5 l4 xl3" style="margin: 2rem 0;">
                         <a
+                            id="landing-cta-btn-see-demo"
                             class="cta-btn waves-effect waves-light btn-large red accent-3"
                             href="./demo.html"
                             style="font-size: large;"
@@ -381,22 +398,28 @@
                         <ul>
                             <li>
                                 <a
+                                    id="footer-social-github"
                                     class="grey-text text-lighten-3"
                                     href="https://github.com/dsp9107"
+                                    target="_blank"
                                     >Github</a
                                 >
                             </li>
                             <li>
                                 <a
+                                    id="footer-social-youtube"
                                     class="grey-text text-lighten-3"
                                     href="https://www.youtube.com/channel/UC469Gl3RdDc0Ufu-FaSInmQ"
+                                    target="_blank"
                                     >YouTube</a
                                 >
                             </li>
                             <li>
                                 <a
+                                    id="footer-social-soundcloud"
                                     class="grey-text text-lighten-3"
                                     href="https://soundcloud.com/dsp9107"
+                                    target="_blank"
                                     >SoundCloud</a
                                 >
                             </li>
@@ -413,22 +436,28 @@
                         <ul>
                             <li>
                                 <a
+                                    id="footer-social-linkedin"
                                     class="grey-text text-lighten-3"
                                     href="https://linkedin.com/in/dsp9107"
+                                    target="_blank"
                                     >LinkedIN</a
                                 >
                             </li>
                             <li>
                                 <a
+                                    id="footer-social-instagram"
                                     class="grey-text text-lighten-3"
                                     href="https://instagram.com/dsp9107"
+                                    target="_blank"
                                     >Instagram</a
                                 >
                             </li>
                             <li>
                                 <a
+                                    id="footer-social-twitter"
                                     class="grey-text text-lighten-3"
                                     href="https://twitter.com/dsp9107"
+                                    target="_blank"
                                     >Twitter</a
                                 >
                             </li>
@@ -439,12 +468,18 @@
             <div class="footer-copyright blue-grey darken-4 white-text">
                 <div class="container yellow-text text-lighten-5">
                     powered by
-                    <a href="https://firebase.google.com/" class="yellow-text"
+                    <a
+                        id="footer-copyright-firebase"
+                        href="https://firebase.google.com/"
+                        target="_blank"
+                        class="yellow-text"
                         >Firebase</a
                     >
                     <a
+                        id="footer-copyright-portfolio"
                         class="red-text text-accent-3 right"
                         href="https://dhawalsinghpanwar.codes/"
+                        target="_blank"
                         >@dsp9107</a
                     >
                 </div>
@@ -488,19 +523,6 @@
 
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
-        <script>
-            var firebaseConfig = {
-                apiKey: "AIzaSyARepvtLqm28z8JLo58YBWdBIdcyWsTJfY",
-                authDomain: "uims-assistant.firebaseapp.com",
-                databaseURL: "https://uims-assistant.firebaseio.com",
-                projectId: "uims-assistant",
-                storageBucket: "uims-assistant.appspot.com",
-                messagingSenderId: "190486161620",
-                appId: "1:190486161620:web:b511dcaf2a4a0c172df341",
-                measurementId: "G-3806LQMTMS",
-            };
-            firebase.initializeApp(firebaseConfig);
-            firebase.analytics();
-        </script>
+        <script src="./scripts/custom-analytics.js"></script>
     </body>
 </html>
