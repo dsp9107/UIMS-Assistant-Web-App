@@ -19,3 +19,25 @@ nav > div.container {
 .cta-btn {
     width: 100%;
 }
+
+blockquote {
+    margin: 14px 0;
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+    background-color: #ffebee;
+    border-left-color: #ff1744;
+}
+
+body
+    > div.container
+    > div:nth-child(1)
+    > div:nth-child(2)
+    > div:nth-child(1)
+    > span
+    > blockquote:nth-child(5) {
+    background-color: #fffde7;
+    border-left-color: #ffeb3b;
+}
+
+ul.collapsible.popout > li.active {
+    margin: 24px 0;
+}
