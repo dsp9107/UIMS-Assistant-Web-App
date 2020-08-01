@@ -25,24 +25,50 @@
         <!-- NAVBAR -->
         <nav class="red accent-3">
             <div class="nav-wrapper container">
-                <a href="./index.html" class="brand-logo center white-text"
+                <a href="./index.html" class="brand-logo white-text"
                     >UIMS Assistant</a
                 >
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"
                     ><i class="material-icons">menu</i></a
                 >
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li>
+                        <a id="nav-cta-btn-see-demo" href="./demo.html">Demo</a>
+                    </li>
                     <li class="yellow">
                         <a
-                            id="nav-cta-btn-see-demo"
-                            class="black-text"
-                            href="./demo.html"
-                            >check out demo</a
+                            class="dropdown-trigger black-text"
+                            data-target="dropdown1"
+                            >Login<i class="material-icons right"
+                                >arrow_drop_down</i
+                            ></a
                         >
                     </li>
                 </ul>
             </div>
         </nav>
+
+        <!-- Dropdown Structure -->
+        <ul id="dropdown1" class="dropdown-content red accent-3">
+            <li class="divider" tabindex="-1"></li>
+            <li>
+                <a
+                    href="#!"
+                    class="modal-trigger white-text"
+                    data-target="modal-login-with-ua"
+                    >Already registered ?</a
+                >
+            </li>
+            <li class="divider" tabindex="-1"></li>
+            <li>
+                <a
+                    href="#!"
+                    class="modal-trigger white-text"
+                    data-target="modal-login-with-uims"
+                    >Login with UIMS Creds</a
+                >
+            </li>
+        </ul>
 
         <!-- SIDENAV -->
         <ul class="sidenav" id="mobile-demo">
@@ -85,6 +111,49 @@
                 >
             </li>
         </ul>
+
+        <!-- LOGIN WITH UIMS MODAL -->
+        <div id="modal-login-with-uims" class="modal">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 flex flex-col">
+                        <h4>UIMS credentials</h4>
+                        <form id="login-with-uims-form">
+                            <div class="input-field">
+                                <input
+                                    type="text"
+                                    id="login-with-uims-username"
+                                    required
+                                />
+                                <label for="login-with-uims-username"
+                                    >UIMS Username</label
+                                >
+                            </div>
+                            <div class="input-field">
+                                <input
+                                    type="password"
+                                    id="login-with-uims-password"
+                                    required
+                                />
+                                <label for="login-with-uims-password"
+                                    >UIMS Password</label
+                                >
+                            </div>
+
+                            <button
+                                class="btn form-submit-button red accent-3 waves-effect waves-yellow z-depth-0"
+                            >
+                                Login with UIMS credentials
+                            </button>
+                            <div class="progress" style="display: none;">
+                                <div class="indeterminate"></div>
+                            </div>
+                            <p class="error pink-text center-align"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- PREMIUM MODAL -->
         <div id="modal-premium" class="modal">
@@ -518,11 +587,16 @@
         <script>
             $(document).ready(function () {
                 $(".collapsible").collapsible();
-                $(".fixed-action-btn").floatingActionButton();
-                $(".tooltipped").tooltip();
-                $(".modal").modal();
-                var elems = document.querySelectorAll(".sidenav");
-                var options = {
+                $(".modal").modal({
+                    onOpenEnd: function () {
+                        $(this).find("input:first").focus();
+                    },
+                });
+
+                adjustNavbarTitle();
+
+                var sidenavs = document.querySelectorAll(".sidenav");
+                var sidenavOptions = {
                     edge: "left",
                     draggable: true,
                     inDuration: 250,
@@ -533,12 +607,23 @@
                     onCloseEnd: null,
                     preventScrolling: true,
                 };
-                adjustNavbarTitle();
-                var instances = M.Sidenav.init(elems, options);
+                var sidenavInstances = M.Sidenav.init(sidenavs, sidenavOptions);
+
+                var dropdowns = document.querySelectorAll(".dropdown-trigger");
+                var dropdownOptions = {
+                    coverTrigger: false,
+                    hover: true,
+                    constrainWidth: false,
+                };
+                var dropdownInstances = M.Dropdown.init(
+                    dropdowns,
+                    dropdownOptions
+                );
             });
         </script>
 
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-functions.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-performance.js"></script>
         <script>
@@ -553,9 +638,69 @@
                 measurementId: "G-3806LQMTMS",
             };
             firebase.initializeApp(firebaseConfig);
+            firebase.functions();
+            if (
+                location.hostname === "localhost" ||
+                location.hostname === "127.0.0.1"
+            )
+                firebase
+                    .functions()
+                    .useFunctionsEmulator("http://localhost:5001");
             firebase.analytics();
             firebase.performance();
         </script>
         <script src="./scripts/custom-analytics.js"></script>
+        <script>
+            var fetchAttendance = firebase
+                .functions()
+                .httpsCallable("fetchAttendanceV2");
+
+            // login with UIMS
+            const formLoginWithUIMS = document.querySelector(
+                "#login-with-uims-form"
+            );
+            if (formLoginWithUIMS != null) {
+                formLoginWithUIMS.addEventListener("submit", (e) => {
+                    e.preventDefault();
+
+                    $("#modal-login-with-uims .form-submit-button").hide();
+                    $("#modal-login-with-uims .error").hide();
+                    $("#modal-login-with-uims .progress").show();
+
+                    // get user info
+                    const creds = {
+                        uid:
+                            formLoginWithUIMS["login-with-uims-username"].value,
+                        pass:
+                            formLoginWithUIMS["login-with-uims-password"].value,
+                    };
+
+                    // log the user in
+
+                    fetchAttendance(creds).then((result) => {
+                        if (result.data.desc === "error") {
+                            $("#modal-login-with-uims .error").text(
+                                result.data.error
+                            );
+                            $("#modal-login-with-uims .error").show();
+                            $("#modal-login-with-uims .progress").hide();
+                            $(
+                                "#modal-login-with-uims .form-submit-button"
+                            ).show();
+                        } else {
+                            $("#modal-login-with-uims .error").text("success");
+                            $("#modal-login-with-uims .error").show();
+                            $("#modal-login-with-uims .progress").hide();
+                            sessionStorage.setItem(
+                                "attendanceData",
+                                JSON.stringify(result.data)
+                            );
+                            sessionStorage.setItem("uims-login", true);
+                            window.location = "./demo.html";
+                        }
+                    });
+                });
+            }
+        </script>
     </body>
 </html>

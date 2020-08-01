@@ -41,3 +41,14 @@ body
 ul.collapsible.popout > li.active {
     margin: 24px 0;
 }
+
+.dropdown-content li:hover,
+.dropdown-content li.active {
+    background-color: #ff1744 !important;
+    filter: brightness(102%);
+}
+
+.dropdown-content > li:hover .dropdown-content > li > a {
+    color: white !important;
+    filter: brightness(100%);
+}

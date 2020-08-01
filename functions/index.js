@@ -2,8 +2,6 @@ const functions = require("firebase-functions");
 const puppeteer = require("puppeteer");
 const crypto = require("crypto");
 
-const user = { uid: "17bcs3527", pass: "Trump@$$3" };
-
 exports.helloWorld = functions
     .region("asia-east2")
     .https.onRequest((request, response) => {
@@ -92,7 +90,7 @@ async function goToUIMS() {
     }
 }
 
-async function loginToUIMS() {
+async function loginToUIMS(user) {
     try {
         // type in username
         await page.waitForSelector("#txtUserId");
@@ -107,14 +105,51 @@ async function loginToUIMS() {
         await page.click("#btnLogin");
 
         // check if logged in
-        if (page.url().indexOf("https://uims.cuchd.in/UIMS/Login.aspx") == 0) {
-            throw new Error("Incorrect UIMS Credentials");
+        if (page.url().indexOf("https://uims.cuchd.in/uims/Login.aspx") == 0) {
+            await page.waitForSelector(
+                "#login-page > div:nth-child(3) > div.sweet-alert.showSweetAlert.visible > p"
+            );
+            var errorMsg = await page.$eval(
+                "#login-page > div:nth-child(3) > div.sweet-alert.showSweetAlert.visible > p",
+                (element) => element.innerText
+            );
+            if (errorMsg === "UserId or Password InCorrect") {
+                throw new Error("Incorrect UIMS Credentials");
+            } else {
+                throw new Error("Unable to login");
+            }
         } else {
+            console.log("UIMS - User logged in");
             return Promise.resolve(true);
         }
     } catch (e) {
-        console.log("PPTR -", e.message);
+        console.log("UIMS -", e.message);
         throw e;
+    }
+}
+
+async function logoutFromUIMS() {
+    try {
+        if (
+            page.url() !=
+            "https://uims.cuchd.in/UIMS/frmStudentCourseWiseAttendanceSummary.aspx"
+        ) {
+            await page.goto(
+                "https://uims.cuchd.in/UIMS/frmStudentCourseWiseAttendanceSummary.aspx",
+                { waitUntil: "domcontentloaded" }
+            );
+        }
+        if (
+            page.url() ===
+            "https://uims.cuchd.in/UIMS/frmStudentCourseWiseAttendanceSummary.aspx"
+        ) {
+            await page.click(
+                "#header > div.header-right.pull-right > div > div.home-links > ul > li:nth-child(2) > div > ul > li:nth-child(3) > a"
+            );
+            console.log("UIMS - User logged out");
+        }
+    } catch (e) {
+        console.log("UIMS -", e.message);
     }
 }
 
@@ -214,25 +249,28 @@ function prepStageTwo(stageOneData) {
 exports.fetchAttendanceV2 = functions
     .region("asia-east2")
     .runWith({ timeoutSeconds: 30, memory: "512MB" })
-    .https.onRequest((request, response) => {
-        openBrowserMinimal()
+    .https.onCall((data, context) => {
+        return openBrowserMinimal()
             .then(goToUIMS)
-            .then(loginToUIMS)
+            .then(() => loginToUIMS({ uid: data.uid, pass: data.pass }))
             .then(scrapeAttendance)
-            .then((scrapedData) => prepStageOne(scrapedData))
+            .then((scrapedData) => {
+                logoutFromUIMS();
+                return prepStageOne(scrapedData);
+            })
             .then((stageOnePrepped) => prepStageTwo(stageOnePrepped))
             .then((stageTwoPrepped) => {
-                response.send(stageTwoPrepped);
-                return browser.close();
+                return stageTwoPrepped;
             })
             .catch((e) => {
                 if (
                     e.message === "Some issue with Puppeteer" ||
                     e.message === "Unable to open UIMS" ||
                     e.message === "Incorrect UIMS Credentials" ||
+                    e.message === "Unable to login" ||
                     e.message === "Unable to scrape Attendance"
                 ) {
-                    response.send({ desc: "error", error: e.message });
+                    return { desc: "error", error: e.message };
                 }
                 console.log(e);
             });
