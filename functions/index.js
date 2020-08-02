@@ -247,7 +247,7 @@ function prepStageTwo(stageOneData) {
 }
 
 exports.fetchAttendanceV2 = functions
-    .region("asia-east2")
+    .region("us-central1")
     .runWith({ timeoutSeconds: 30, memory: "512MB" })
     .https.onCall((data, context) => {
         return openBrowserMinimal()

@@ -110,6 +110,38 @@
                     ><i class="material-icons left">star</i>Check out Demo</a
                 >
             </li>
+            <li><div class="divider"></div></li>
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <a class="collapsible-header"
+                            >Login<i class="material-icons"
+                                >arrow_drop_down</i
+                            ></a
+                        >
+                        <div class="collapsible-body">
+                            <ul>
+                                <li>
+                                    <a
+                                        href="#!"
+                                        class="modal-trigger"
+                                        data-target="modal-login-with-ua"
+                                        >Already registered ?</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        href="#!"
+                                        class="modal-trigger"
+                                        data-target="modal-login-with-uims"
+                                        >Login with UIMS Creds</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
         </ul>
 
         <!-- LOGIN WITH UIMS MODAL -->
@@ -667,17 +699,14 @@
                     $("#modal-login-with-uims .error").hide();
                     $("#modal-login-with-uims .progress").show();
 
-                    // get user info
-                    const creds = {
+                    // log the user in
+
+                    fetchAttendance({
                         uid:
                             formLoginWithUIMS["login-with-uims-username"].value,
                         pass:
                             formLoginWithUIMS["login-with-uims-password"].value,
-                    };
-
-                    // log the user in
-
-                    fetchAttendance(creds).then((result) => {
+                    }).then((result) => {
                         if (result.data.desc === "error") {
                             $("#modal-login-with-uims .error").text(
                                 result.data.error
