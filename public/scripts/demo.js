@@ -17,9 +17,16 @@ $(document).ready(function () {
         preventScrolling: true,
     };
     var instances = M.Sidenav.init(elems, options);
-    extInstalled().catch((e) => $("#nav-cta-btn-download-chrome-ext").show());
     adjustNavbarTitle();
-    return lightItUp();
+
+    if (JSON.parse(sessionStorage.getItem("uims-login"))) {
+        return loadEverything("attendance data loaded");
+    } else {
+        extInstalled().catch((e) =>
+            $("#nav-cta-btn-download-chrome-ext").show()
+        );
+        return lightItUp();
+    }
 });
 
 // environment related
@@ -469,5 +476,9 @@ function refreshView() {
     $(".tooltipped").tooltip();
     resetSubjectCards();
     hideChart();
-    return lightItUp();
+    if (JSON.parse(sessionStorage.getItem("uims-login"))) {
+        return loadEverything("attendance data loaded");
+    } else {
+        return lightItUp();
+    }
 }
