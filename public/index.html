@@ -20,6 +20,11 @@
             rel="stylesheet"
         />
         <link rel="stylesheet" type="text/css" href="./styles/style.css" />
+        <script
+            src="https://www.google.com/recaptcha/api.js"
+            async
+            defer
+        ></script>
     </head>
     <body>
         <!-- NAVBAR -->
@@ -32,16 +37,31 @@
                     ><i class="material-icons">menu</i></a
                 >
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li class="logged-in yellow" style="display: none;">
+                        <a class="black-text" href="./demo.html"
+                            >My Attendance</a
+                        >
+                    </li>
                     <li>
-                        <a id="nav-cta-btn-see-demo" href="./demo.html">Demo</a>
+                        <a
+                            class="logged-out"
+                            id="nav-cta-btn-see-demo"
+                            href="./demo.html"
+                            >Demo</a
+                        >
                     </li>
                     <li class="yellow">
                         <a
-                            class="dropdown-trigger black-text"
+                            class="logged-out dropdown-trigger black-text"
                             data-target="dropdown1"
                             >Login<i class="material-icons right"
                                 >arrow_drop_down</i
                             ></a
+                        >
+                    </li>
+                    <li class="logged-in" style="display: none;">
+                        <a href="javaScript:void(0);" class="logout-fx"
+                            >Logout</a
                         >
                     </li>
                 </ul>
@@ -105,15 +125,20 @@
                     Premium</a
                 >
             </li>
-            <li>
+            <li class="logged-out">
                 <a id="sidenav-cta-btn-see-demo" href="./demo.html"
                     ><i class="material-icons left">star</i>Check out Demo</a
                 >
             </li>
+
             <li><div class="divider"></div></li>
+
+            <li class="logged-in" style="display: none;">
+                <a href="./demo.html">My Attendance</a>
+            </li>
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
-                    <li>
+                    <li class="logged-out">
                         <a class="collapsible-header"
                             >Login
                             <i class="material-icons">arrow_drop_down</i></a
@@ -137,6 +162,11 @@
                                 </li>
                             </ul>
                         </div>
+                    </li>
+                    <li class="logged-in" style="display: none;">
+                        <a href="javaScript:void(0);" class="logout-fx"
+                            >Logout</a
+                        >
                     </li>
                 </ul>
             </li>
@@ -170,11 +200,17 @@
                                 >
                             </div>
 
+                            <div
+                                class="g-recaptcha"
+                                data-sitekey="6LdtbrkZAAAAAJaNcPe3b22XsHif4Gbp_k4HYGof"
+                            ></div>
+
                             <button
                                 class="btn form-submit-button red accent-3 waves-effect waves-yellow z-depth-0"
                             >
                                 Login with UIMS credentials
                             </button>
+
                             <div
                                 class="progress red accent-3"
                                 style="display: none;"
@@ -658,81 +694,12 @@
         </script>
 
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-functions.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-performance.js"></script>
-        <script>
-            var firebaseConfig = {
-                apiKey: "AIzaSyARepvtLqm28z8JLo58YBWdBIdcyWsTJfY",
-                authDomain: "uims-assistant.firebaseapp.com",
-                databaseURL: "https://uims-assistant.firebaseio.com",
-                projectId: "uims-assistant",
-                storageBucket: "uims-assistant.appspot.com",
-                messagingSenderId: "190486161620",
-                appId: "1:190486161620:web:b511dcaf2a4a0c172df341",
-                measurementId: "G-3806LQMTMS",
-            };
-            firebase.initializeApp(firebaseConfig);
-            firebase.functions();
-            if (
-                location.hostname === "localhost" ||
-                location.hostname === "127.0.0.1"
-            )
-                firebase
-                    .functions()
-                    .useFunctionsEmulator("http://localhost:5001");
-            firebase.analytics();
-            firebase.performance();
-        </script>
+        <script src="./scripts/firebase-init.js"></script>
+        <script src="./scripts/auth.js"></script>
         <script src="./scripts/custom-analytics.js"></script>
-        <script>
-            var fetchAttendance = firebase
-                .functions()
-                .httpsCallable("fetchAttendanceV2");
-
-            // login with UIMS
-            const formLoginWithUIMS = document.querySelector(
-                "#login-with-uims-form"
-            );
-            if (formLoginWithUIMS != null) {
-                formLoginWithUIMS.addEventListener("submit", (e) => {
-                    e.preventDefault();
-
-                    $("#modal-login-with-uims .form-submit-button").hide();
-                    $("#modal-login-with-uims .error").hide();
-                    $("#modal-login-with-uims .progress").show();
-
-                    // log the user in
-
-                    fetchAttendance({
-                        uid:
-                            formLoginWithUIMS["login-with-uims-username"].value,
-                        pass:
-                            formLoginWithUIMS["login-with-uims-password"].value,
-                    }).then((result) => {
-                        if (result.data.desc === "error") {
-                            $("#modal-login-with-uims .error").text(
-                                result.data.error
-                            );
-                            $("#modal-login-with-uims .error").show();
-                            $("#modal-login-with-uims .progress").hide();
-                            $(
-                                "#modal-login-with-uims .form-submit-button"
-                            ).show();
-                        } else {
-                            $("#modal-login-with-uims .error").text("success");
-                            $("#modal-login-with-uims .error").show();
-                            $("#modal-login-with-uims .progress").hide();
-                            sessionStorage.setItem(
-                                "attendanceData",
-                                JSON.stringify(result.data)
-                            );
-                            sessionStorage.setItem("uims-login", true);
-                            window.location = "./demo.html";
-                        }
-                    });
-                });
-            }
-        </script>
     </body>
 </html>

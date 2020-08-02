@@ -4,6 +4,7 @@ $(document).ready(function () {
     $(".fixed-action-btn").floatingActionButton();
     $(".tooltipped").tooltip();
     $(".modal").modal();
+    $(".collapsible").collapsible();
     var elems = document.querySelectorAll(".sidenav");
     var options = {
         edge: "left",
@@ -19,7 +20,7 @@ $(document).ready(function () {
     var instances = M.Sidenav.init(elems, options);
     adjustNavbarTitle();
 
-    if (JSON.parse(sessionStorage.getItem("uims-login"))) {
+    if (JSON.parse(sessionStorage.getItem("uims-auth"))) {
         return loadEverything("attendance data loaded");
     } else {
         extInstalled().catch((e) =>
@@ -476,7 +477,7 @@ function refreshView() {
     $(".tooltipped").tooltip();
     resetSubjectCards();
     hideChart();
-    if (JSON.parse(sessionStorage.getItem("uims-login"))) {
+    if (JSON.parse(sessionStorage.getItem("uims-auth"))) {
         return loadEverything("attendance data loaded");
     } else {
         return lightItUp();

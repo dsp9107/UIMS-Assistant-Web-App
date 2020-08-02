@@ -8,6 +8,11 @@ exports.helloWorld = functions
         return response.send("Hello from Firebase!");
     });
 
+exports.testAuth = functions.https.onCall((data, context) => {
+    console.log(context.auth);
+    return context.auth;
+});
+
 // ACTUAL LOGIC STARTS HERE
 
 let browser, page;
@@ -250,28 +255,30 @@ exports.fetchAttendanceV2 = functions
     .region("us-central1")
     .runWith({ timeoutSeconds: 30, memory: "512MB" })
     .https.onCall((data, context) => {
-        return openBrowserMinimal()
-            .then(goToUIMS)
-            .then(() => loginToUIMS({ uid: data.uid, pass: data.pass }))
-            .then(scrapeAttendance)
-            .then((scrapedData) => {
-                logoutFromUIMS();
-                return prepStageOne(scrapedData);
-            })
-            .then((stageOnePrepped) => prepStageTwo(stageOnePrepped))
-            .then((stageTwoPrepped) => {
-                return stageTwoPrepped;
-            })
-            .catch((e) => {
-                if (
-                    e.message === "Some issue with Puppeteer" ||
-                    e.message === "Unable to open UIMS" ||
-                    e.message === "Incorrect UIMS Credentials" ||
-                    e.message === "Unable to login" ||
-                    e.message === "Unable to scrape Attendance"
-                ) {
-                    return { desc: "error", error: e.message };
-                }
-                console.log(e);
-            });
+        if (context.auth && context.auth.uid)
+            return openBrowserMinimal()
+                .then(goToUIMS)
+                .then(() => loginToUIMS({ uid: data.uid, pass: data.pass }))
+                .then(scrapeAttendance)
+                .then((scrapedData) => {
+                    logoutFromUIMS();
+                    return prepStageOne(scrapedData);
+                })
+                .then((stageOnePrepped) => prepStageTwo(stageOnePrepped))
+                .then((stageTwoPrepped) => {
+                    return stageTwoPrepped;
+                })
+                .catch((e) => {
+                    if (
+                        e.message === "Some issue with Puppeteer" ||
+                        e.message === "Unable to open UIMS" ||
+                        e.message === "Incorrect UIMS Credentials" ||
+                        e.message === "Unable to login" ||
+                        e.message === "Unable to scrape Attendance"
+                    ) {
+                        return { desc: "error", error: e.message };
+                    }
+                    console.log(e);
+                });
+        else return { desc: "error", error: "you're not supposed to do that" };
     });
