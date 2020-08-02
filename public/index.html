@@ -39,7 +39,8 @@
                         <a
                             class="dropdown-trigger black-text"
                             data-target="dropdown1"
-                            >Login<i class="material-icons right"
+                            ><strong>Login</strong
+                            ><i class="material-icons right"
                                 >arrow_drop_down</i
                             ></a
                         >
@@ -53,19 +54,19 @@
             <li class="divider" tabindex="-1"></li>
             <li>
                 <a
-                    href="#!"
+                    href="javaScript:void(0);"
                     class="modal-trigger white-text"
-                    data-target="modal-login-with-ua"
-                    >Already registered ?</a
+                    data-target="modal-login-with-uims"
+                    >Login with UIMS Creds</a
                 >
             </li>
             <li class="divider" tabindex="-1"></li>
             <li>
                 <a
-                    href="#!"
-                    class="modal-trigger white-text"
-                    data-target="modal-login-with-uims"
-                    >Login with UIMS Creds</a
+                    href="javaScript:void(0);"
+                    onclick="M.toast({html: 'coming soon'})"
+                    class="white-text"
+                    >Already registered ?</a
                 >
             </li>
         </ul>
@@ -115,26 +116,24 @@
                 <ul class="collapsible collapsible-accordion">
                     <li>
                         <a class="collapsible-header"
-                            >Login<i class="material-icons"
-                                >arrow_drop_down</i
-                            ></a
+                            ><strong>Login</strong
+                            ><i class="material-icons">arrow_drop_down</i></a
                         >
                         <div class="collapsible-body">
                             <ul>
                                 <li>
                                     <a
-                                        href="#!"
+                                        href="javaScript:void(0);"
                                         class="modal-trigger"
-                                        data-target="modal-login-with-ua"
-                                        >Already registered ?</a
+                                        data-target="modal-login-with-uims"
+                                        >Login with UIMS Creds</a
                                     >
                                 </li>
                                 <li>
                                     <a
-                                        href="#!"
-                                        class="modal-trigger"
-                                        data-target="modal-login-with-uims"
-                                        >Login with UIMS Creds</a
+                                        href="javaScript:void(0);"
+                                        onclick="M.toast({html: 'coming soon'})"
+                                        >Already registered ?</a
                                     >
                                 </li>
                             </ul>
@@ -177,10 +176,15 @@
                             >
                                 Login with UIMS credentials
                             </button>
-                            <div class="progress" style="display: none;">
-                                <div class="indeterminate"></div>
+                            <div
+                                class="progress red accent-3"
+                                style="display: none;"
+                            >
+                                <div class="indeterminate yellow"></div>
                             </div>
-                            <p class="error pink-text center-align"></p>
+                            <p
+                                class="error red-text text-accent-3 center-align"
+                            ></p>
                         </form>
                     </div>
                 </div>
