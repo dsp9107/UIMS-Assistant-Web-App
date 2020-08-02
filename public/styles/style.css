@@ -52,3 +52,11 @@ ul.collapsible.popout > li.active {
     color: white !important;
     filter: brightness(100%);
 }
+
+.g-recaptcha {
+    margin: 1rem 0;
+}
+
+#login-with-uims-form .progress {
+    margin: 1rem 0;
+}
