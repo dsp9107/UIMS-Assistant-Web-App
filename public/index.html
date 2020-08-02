@@ -32,18 +32,30 @@
                     ><i class="material-icons">menu</i></a
                 >
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li class="logged-in yellow" style="display: none;">
+                        <a class="black-text" href="./demo.html"
+                            >My Attendance</a
+                        >
+                    </li>
                     <li>
-                        <a id="nav-cta-btn-see-demo" href="./demo.html">Demo</a>
+                        <a
+                            class="logged-out"
+                            id="nav-cta-btn-see-demo"
+                            href="./demo.html"
+                            >Demo</a
+                        >
                     </li>
                     <li class="yellow">
                         <a
-                            class="dropdown-trigger black-text"
+                            class="logged-out dropdown-trigger black-text"
                             data-target="dropdown1"
-                            ><strong>Login</strong
-                            ><i class="material-icons right"
+                            >Login<i class="material-icons right"
                                 >arrow_drop_down</i
                             ></a
                         >
+                    </li>
+                    <li class="logged-in" style="display: none;">
+                        <a class="logout-fx">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -116,13 +128,8 @@
                 <ul class="collapsible collapsible-accordion">
                     <li>
                         <a class="collapsible-header"
-<<<<<<< HEAD
                             >Login
                             <i class="material-icons">arrow_drop_down</i></a
-=======
-                            ><strong>Login</strong
-                            ><i class="material-icons">arrow_drop_down</i></a
->>>>>>> 95c93ea30c193611cecf06c2009f85b34fd9abce
                         >
                         <div class="collapsible-body">
                             <ul>
@@ -664,6 +671,7 @@
         </script>
 
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-functions.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-performance.js"></script>
@@ -679,6 +687,7 @@
                 measurementId: "G-3806LQMTMS",
             };
             firebase.initializeApp(firebaseConfig);
+            var auth = firebase.auth();
             firebase.functions();
             if (
                 location.hostname === "localhost" ||
@@ -690,55 +699,7 @@
             firebase.analytics();
             firebase.performance();
         </script>
+        <script src="./scripts/auth.js"></script>
         <script src="./scripts/custom-analytics.js"></script>
-        <script>
-            var fetchAttendance = firebase
-                .functions()
-                .httpsCallable("fetchAttendanceV2");
-
-            // login with UIMS
-            const formLoginWithUIMS = document.querySelector(
-                "#login-with-uims-form"
-            );
-            if (formLoginWithUIMS != null) {
-                formLoginWithUIMS.addEventListener("submit", (e) => {
-                    e.preventDefault();
-
-                    $("#modal-login-with-uims .form-submit-button").hide();
-                    $("#modal-login-with-uims .error").hide();
-                    $("#modal-login-with-uims .progress").show();
-
-                    // log the user in
-
-                    fetchAttendance({
-                        uid:
-                            formLoginWithUIMS["login-with-uims-username"].value,
-                        pass:
-                            formLoginWithUIMS["login-with-uims-password"].value,
-                    }).then((result) => {
-                        if (result.data.desc === "error") {
-                            $("#modal-login-with-uims .error").text(
-                                result.data.error
-                            );
-                            $("#modal-login-with-uims .error").show();
-                            $("#modal-login-with-uims .progress").hide();
-                            $(
-                                "#modal-login-with-uims .form-submit-button"
-                            ).show();
-                        } else {
-                            $("#modal-login-with-uims .error").text("success");
-                            $("#modal-login-with-uims .error").show();
-                            $("#modal-login-with-uims .progress").hide();
-                            sessionStorage.setItem(
-                                "attendanceData",
-                                JSON.stringify(result.data)
-                            );
-                            sessionStorage.setItem("uims-login", true);
-                            window.location = "./demo.html";
-                        }
-                    });
-                });
-            }
-        </script>
     </body>
 </html>
