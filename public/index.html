@@ -60,7 +60,9 @@
                         >
                     </li>
                     <li class="logged-in" style="display: none;">
-                        <a class="logout-fx">Logout</a>
+                        <a href="javaScript:void(0);" class="logout-fx"
+                            >Logout</a
+                        >
                     </li>
                 </ul>
             </div>
@@ -123,15 +125,20 @@
                     Premium</a
                 >
             </li>
-            <li>
+            <li class="logged-out">
                 <a id="sidenav-cta-btn-see-demo" href="./demo.html"
                     ><i class="material-icons left">star</i>Check out Demo</a
                 >
             </li>
+
             <li><div class="divider"></div></li>
+
+            <li class="logged-in" style="display: none;">
+                <a href="./demo.html">My Attendance</a>
+            </li>
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
-                    <li>
+                    <li class="logged-out">
                         <a class="collapsible-header"
                             >Login
                             <i class="material-icons">arrow_drop_down</i></a
@@ -155,6 +162,11 @@
                                 </li>
                             </ul>
                         </div>
+                    </li>
+                    <li class="logged-in" style="display: none;">
+                        <a href="javaScript:void(0);" class="logout-fx"
+                            >Logout</a
+                        >
                     </li>
                 </ul>
             </li>

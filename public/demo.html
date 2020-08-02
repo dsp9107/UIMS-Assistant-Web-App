@@ -44,6 +44,13 @@
         <!-- CUSTOM CSS -->
         <link rel="stylesheet" type="text/css" href="./styles/style.css" />
         <link rel="stylesheet" type="text/css" href="./styles/demo.css" />
+
+        <!-- RECAPTCHA -->
+        <script
+            src="https://www.google.com/recaptcha/api.js"
+            async
+            defer
+        ></script>
     </head>
     <body>
         <!-- NAVBAR -->
@@ -85,7 +92,9 @@
                             >
                         </li>
                         <li class="logged-in" style="display: none;">
-                            <a class="logout-fx">Logout</a>
+                            <a href="javaScript:void(0);" class="logout-fx"
+                                >Logout</a
+                            >
                         </li>
                     </ul>
                 </div>
@@ -94,28 +103,158 @@
 
         <!-- SIDENAV -->
         <ul class="sidenav" id="mobile-demo">
-            <li>
-                <div style="margin-top: 8px; margin-left: 12px;">
-                    <a id="sidenav-brand-logo" href="./index.html"
-                        >UIMS Assistant - DEMO</a
+            <li class="red accent-3 white-text">
+                <div
+                    class="red accent-3 white-text"
+                    style="margin-top: 8px; margin-left: 12px;"
+                >
+                    <a
+                        id="sidenav-brand-logo"
+                        class="red accent-3 white-text"
+                        href="./index.html"
+                        >UIMS Assistant</a
                     >
                 </div>
             </li>
             <li><div class="divider"></div></li>
-            <li
-                id="download-btn"
-                class="tooltipped"
-                data-position="left"
-                data-tooltip="Download Extension"
-            >
+            <li>
                 <a
-                    target="_blank"
+                    id="sidenav-cta-btn-download-chrome-ext"
                     href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
+                    target="_blank"
                     ><i class="material-icons left">file_download</i>Download
                     Extension</a
                 >
             </li>
+            <li>
+                <a
+                    id="sidenav-cta-btn-go-premium"
+                    class="modal-trigger"
+                    data-target="modal-premium"
+                    style="cursor: pointer;"
+                    ><i class="material-icons left">attach_money</i>Go
+                    Premium</a
+                >
+            </li>
+
+            <li><div class="divider"></div></li>
+
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li class="logged-out">
+                        <a class="collapsible-header"
+                            >Login
+                            <i class="material-icons">arrow_drop_down</i></a
+                        >
+                        <div class="collapsible-body">
+                            <ul>
+                                <li>
+                                    <a
+                                        href="javaScript:void(0);"
+                                        class="modal-trigger"
+                                        data-target="modal-login-with-uims"
+                                        >Login with UIMS Creds</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        href="javaScript:void(0);"
+                                        onclick="M.toast({html: 'coming soon'})"
+                                        >Already registered ?</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="logged-in" style="display: none;">
+                        <a href="javaScript:void(0);" class="logout-fx"
+                            >Logout</a
+                        >
+                    </li>
+                </ul>
+            </li>
         </ul>
+
+        <!-- LOGIN WITH UIMS MODAL -->
+        <div id="modal-login-with-uims" class="modal">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 flex flex-col">
+                        <h4>UIMS credentials</h4>
+                        <form id="login-with-uims-form">
+                            <div class="input-field">
+                                <input
+                                    type="text"
+                                    id="login-with-uims-username"
+                                    required
+                                />
+                                <label for="login-with-uims-username"
+                                    >UIMS Username</label
+                                >
+                            </div>
+                            <div class="input-field">
+                                <input
+                                    type="password"
+                                    id="login-with-uims-password"
+                                    required
+                                />
+                                <label for="login-with-uims-password"
+                                    >UIMS Password</label
+                                >
+                            </div>
+
+                            <div
+                                class="g-recaptcha"
+                                data-sitekey="6LdtbrkZAAAAAJaNcPe3b22XsHif4Gbp_k4HYGof"
+                            ></div>
+
+                            <button
+                                class="btn form-submit-button red accent-3 waves-effect waves-yellow z-depth-0"
+                            >
+                                Login with UIMS credentials
+                            </button>
+
+                            <div
+                                class="progress red accent-3"
+                                style="display: none;"
+                            >
+                                <div class="indeterminate yellow"></div>
+                            </div>
+                            <p
+                                class="error red-text text-accent-3 center-align"
+                            ></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PREMIUM MODAL -->
+        <div id="modal-premium" class="modal">
+            <div class="modal-content">
+                <h3>Go Premium</h3>
+                <p class="flow-text">Hey there, thanks for showing interest.</p>
+                <p class="flow-text">
+                    As the UIMS Assistant is currently under development, the
+                    <strong>Premium</strong> feature is available on an
+                    invite-only basis. Ask around if any of your friends can
+                    send you an invite.
+                </p>
+                <p class="flow-text">
+                    Contact
+                    <a
+                        id="modal-premium-portfolio-contact"
+                        href="https://dhawalsinghpanwar.codes/#contact"
+                        target="_blank"
+                        ><strong>@dsp9107</strong></a
+                    >
+                    if any other query.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-close waves-effect waves-red btn-flat">Okay</a>
+            </div>
+        </div>
 
         <!-- CONTENT -->
         <div class="container">
@@ -170,26 +309,6 @@
             >
                 <i class="material-icons">refresh</i>
             </a>
-        </div>
-
-        <!-- PREMIUM MODAL -->
-        <div id="modal-premium" class="modal">
-            <div class="modal-content">
-                <h3>Go Premium</h3>
-                <p class="flow-text">Hey there, thanks for showing interest.</p>
-                <p class="flow-text">
-                    As the UIMS Assistant is currently under development, the
-                    <strong>Premium</strong> feature is available on an
-                    invite-only basis. Ask around if any of your friends can
-                    send you an invite.
-                </p>
-                <p class="flow-text">
-                    Contact <strong>@dsp9107</strong> if any further queries.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <a class="modal-close waves-effect waves-red btn-flat">Okay</a>
-            </div>
         </div>
 
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>

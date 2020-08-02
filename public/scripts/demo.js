@@ -4,6 +4,7 @@ $(document).ready(function () {
     $(".fixed-action-btn").floatingActionButton();
     $(".tooltipped").tooltip();
     $(".modal").modal();
+    $(".collapsible").collapsible();
     var elems = document.querySelectorAll(".sidenav");
     var options = {
         edge: "left",

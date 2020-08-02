@@ -90,23 +90,26 @@ if (formLoginWithUIMS != null) {
 }
 
 // logout
-const logoutTrigger = document.querySelector(".logout-fx");
-if (logoutTrigger != null) {
-    logoutTrigger.addEventListener("click", (e) => {
-        e.preventDefault();
-        auth.signOut()
-            .then(() => {
-                sessionStorage.setItem("uims-auth", false);
-                sessionStorage.removeItem("attendanceData");
-                if ($(".modal")) {
-                    $(".modal").modal();
-                }
-                if (window.location.href.search(/.*\/demo\.html/i) < 0)
-                    window.location = "./index.html";
-            })
-            .catch((err) => {
-                M.toast({ html: "check console" });
-                console.log(err.message);
-            });
-    });
-}
+const logoutTriggers = document.querySelectorAll(".logout-fx");
+
+logoutTriggers.forEach((logoutTrigger) => {
+    if (logoutTrigger != null) {
+        logoutTrigger.addEventListener("click", (e) => {
+            e.preventDefault();
+            auth.signOut()
+                .then(() => {
+                    sessionStorage.setItem("uims-auth", false);
+                    sessionStorage.removeItem("attendanceData");
+                    if ($(".modal")) {
+                        $(".modal").modal();
+                    }
+                    if (window.location.href.search(/.*\/demo\.html/i) < 0)
+                        window.location = "./index.html";
+                })
+                .catch((err) => {
+                    M.toast({ html: "check console" });
+                    console.log(err.message);
+                });
+        });
+    }
+});
