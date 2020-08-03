@@ -6,42 +6,24 @@
         <link rel="icon" type="image/png" href="./icons/favicon.png" />
         <title>UIMS Assistant - Demo</title>
 
-        <!-- JQUERY -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-        <!-- CHART JS -->
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
             integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="
             crossorigin="anonymous"
         />
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
-            integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI="
-            crossorigin="anonymous"
-        ></script>
-
-        <!-- MATERIALIZE CSS -->
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
         />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-        <!-- MATERIAL ICONS -->
         <link
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"
         />
-
-        <!-- UBUNTU FONT -->
         <link
             href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"
             rel="stylesheet"
         />
-
-        <!-- CUSTOM CSS -->
         <link rel="stylesheet" type="text/css" href="./styles/style.css" />
         <link rel="stylesheet" type="text/css" href="./styles/demo.css" />
 
@@ -91,6 +73,15 @@
                                 ></a
                             >
                         </li>
+                        <li class="logged-out yellow">
+                            <a
+                                class="dropdown-trigger black-text"
+                                data-target="dropdown1"
+                                >Login<i class="material-icons right"
+                                    >arrow_drop_down</i
+                                ></a
+                            >
+                        </li>
                         <li class="logged-in" style="display: none;">
                             <a href="javaScript:void(0);" class="logout-fx"
                                 >Logout</a
@@ -100,6 +91,28 @@
                 </div>
             </nav>
         </div>
+
+        <!-- Dropdown Structure -->
+        <ul id="dropdown1" class="dropdown-content red accent-3">
+            <li class="divider" tabindex="-1"></li>
+            <li>
+                <a
+                    href="javaScript:void(0);"
+                    class="modal-trigger white-text"
+                    data-target="modal-login-with-ua"
+                    >Already registered ?</a
+                >
+            </li>
+            <li class="divider" tabindex="-1"></li>
+            <li>
+                <a
+                    href="javaScript:void(0);"
+                    class="modal-trigger white-text"
+                    data-target="modal-login-with-uims"
+                    >Login with UIMS Creds</a
+                >
+            </li>
+        </ul>
 
         <!-- SIDENAV -->
         <ul class="sidenav" id="mobile-demo">
@@ -152,15 +165,16 @@
                                     <a
                                         href="javaScript:void(0);"
                                         class="modal-trigger"
-                                        data-target="modal-login-with-uims"
-                                        >Login with UIMS Creds</a
+                                        data-target="modal-login-with-ua"
+                                        >Already registered ?</a
                                     >
                                 </li>
                                 <li>
                                     <a
                                         href="javaScript:void(0);"
-                                        onclick="M.toast({html: 'coming soon'})"
-                                        >Already registered ?</a
+                                        class="modal-trigger"
+                                        data-target="modal-login-with-uims"
+                                        >Login with UIMS Creds</a
                                     >
                                 </li>
                             </ul>
@@ -174,6 +188,60 @@
                 </ul>
             </li>
         </ul>
+
+        <!-- LOGIN WITH UA MODAL -->
+        <div id="modal-login-with-ua" class="modal">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 flex flex-col">
+                        <h4>Registered UA User</h4>
+                        <form id="login-with-ua-form">
+                            <div class="input-field">
+                                <input
+                                    type="text"
+                                    id="login-with-ua-username"
+                                    required
+                                />
+                                <label for="login-with-ua-username"
+                                    >Email address</label
+                                >
+                            </div>
+                            <div class="input-field">
+                                <input
+                                    type="password"
+                                    id="login-with-ua-password"
+                                    required
+                                />
+                                <label for="login-with-ua-password"
+                                    >Password</label
+                                >
+                            </div>
+
+                            <div
+                                class="g-recaptcha"
+                                data-sitekey="6LdtbrkZAAAAAJaNcPe3b22XsHif4Gbp_k4HYGof"
+                            ></div>
+
+                            <button
+                                class="btn form-submit-button red accent-3 waves-effect waves-yellow z-depth-0"
+                            >
+                                Login
+                            </button>
+
+                            <div
+                                class="progress red accent-3"
+                                style="display: none;"
+                            >
+                                <div class="indeterminate yellow"></div>
+                            </div>
+                            <p
+                                class="error red-text text-accent-3 center-align"
+                            ></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- LOGIN WITH UIMS MODAL -->
         <div id="modal-login-with-uims" class="modal">
@@ -299,6 +367,7 @@
             <div class="row lessThan75" style="display: none;"></div>
         </div>
 
+        <!-- REFRESh BUTTON -->
         <div class="fixed-action-btn">
             <a
                 class="btn-floating btn-large green accent-4 tooltipped"
@@ -311,6 +380,16 @@
             </a>
         </div>
 
+        <!-- DEPENDENCIES -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+            integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI="
+            crossorigin="anonymous"
+        ></script>
+
+        <!-- FIREBASE -->
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-functions.js"></script>

@@ -14,78 +14,85 @@ const setupUI = (user) => {
 };
 
 auth.onAuthStateChanged((user) => {
-    if (user && JSON.parse(sessionStorage.getItem("uims-auth"))) {
+    if (user) {
         setupUI(user);
     } else {
         setupUI();
     }
 });
 
-// login with UIMS
-const formLoginWithUIMS = document.querySelector("#login-with-uims-form");
-if (formLoginWithUIMS != null) {
-    formLoginWithUIMS.addEventListener("submit", (e) => {
+// login with UA
+const formLoginWithUA = document.querySelector("#login-with-ua-form");
+if (formLoginWithUA != null) {
+    formLoginWithUA.addEventListener("submit", (e) => {
         e.preventDefault();
 
         var response = grecaptcha.getResponse();
         if (response.length == 0) {
-            $("#modal-login-with-uims .error").text("captcha required");
-            $("#modal-login-with-uims .error").show();
+            $("#modal-login-with-ua .error").text("captcha required");
+            $("#modal-login-with-ua .error").show();
         } else {
-            $("#modal-login-with-uims .form-submit-button").hide();
-            $("#modal-login-with-uims .error").hide();
-            $("#modal-login-with-uims .progress").show();
+            $("#modal-login-with-ua .form-submit-button").hide();
+            $("#modal-login-with-ua .error").hide();
+            $("#modal-login-with-ua .progress").show();
+
+            // get user info
+            const email = formLoginWithUA["login-with-ua-email"].value;
+            const password = formLoginWithUA["login-with-ua-password"].value;
 
             // log the user in
-            firebase
-                .auth()
-                .signInAnonymously()
+            auth.signInWithEmailAndPassword(email, password)
                 .then((user) => {
+                    if ($(".modal")) {
+                        M.Modal.getInstance($(".modal")).close();
+                        $(".modal").modal();
+                    }
+                    // if (window.location.href.search(/.*\/demo\.html/i) >= 0)
+                    //     window.location = "./index.html";
+
                     // Request attendance
                     var fetchAttendance = firebase
                         .functions()
                         .httpsCallable("fetchAttendanceV2");
 
-                    fetchAttendance({
-                        uid:
-                            formLoginWithUIMS["login-with-uims-username"].value,
-                        pass:
-                            formLoginWithUIMS["login-with-uims-password"].value,
-                    }).then((result) => {
-                        if (result.data.desc === "error") {
-                            $("#modal-login-with-uims .error").text(
-                                result.data.error
-                            );
-                            $("#modal-login-with-uims .error").show();
-                            $("#modal-login-with-uims .progress").hide();
-                            $(
-                                "#modal-login-with-uims .form-submit-button"
-                            ).show();
-                            auth.signOut().catch((err) => {
-                                console.log(err.message);
-                            });
-                            grecaptcha.reset();
-                        } else {
-                            sessionStorage.setItem("uims-auth", true);
-                            setupUI(user);
-                            $("#modal-login-with-uims .error").text("success");
-                            $("#modal-login-with-uims .error").show();
-                            $("#modal-login-with-uims .progress").hide();
+                    console.log(user);
+
+                    fetchAttendance().then((result) => {
+                        if (result.data.desc != "error") {
                             sessionStorage.setItem(
                                 "attendanceData",
                                 JSON.stringify(result.data)
                             );
-                            window.location = "./demo.html";
+                            M.toast({ html: "attendance synced" });
+                        } else {
+                            M.toast({ html: "attendance couldn't be synced" });
                         }
                     });
                 })
                 .catch(function (error) {
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    console.log(errorCode);
-                    console.log(errorMessage);
+                    grecaptcha.reset();
+                    $("#modal-login-with-ua .error").text(error.message);
+                    $("#modal-login-with-ua .error").show();
+                    $("#modal-login-with-ua .progress").hide();
+                    $("#modal-login-with-ua .form-submit-button").show();
                 });
         }
+    });
+}
+
+// login with UIMS
+const formLoginWithUIMS = document.querySelector("#login-with-uims-form");
+if (formLoginWithUIMS != null) {
+    formLoginWithUIMS.addEventListener("submit", (e) => {
+        e.preventDefault();
+        $("#modal-login-with-uims .form-submit-button").hide();
+        $("#modal-login-with-uims .error").hide();
+        $("#modal-login-with-uims .progress").show();
+        setTimeout(function () {
+            $("#modal-login-with-uims .error").text("sorry, we just closed.");
+            $("#modal-login-with-uims .error").show();
+            $("#modal-login-with-uims .progress").hide();
+        }, 3000);
     });
 }
 

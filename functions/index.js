@@ -1,17 +1,15 @@
 const functions = require("firebase-functions");
 const puppeteer = require("puppeteer");
 const crypto = require("crypto");
+const admin = require("firebase-admin");
+admin.initializeApp();
+const db = admin.firestore();
 
-exports.helloWorld = functions
+exports.ping = functions
     .region("asia-east2")
     .https.onRequest((request, response) => {
-        return response.send("Hello from Firebase!");
+        return response.send("pongy");
     });
-
-exports.testAuth = functions.https.onCall((data, context) => {
-    console.log(context.auth);
-    return context.auth;
-});
 
 // ACTUAL LOGIC STARTS HERE
 
@@ -254,31 +252,42 @@ function prepStageTwo(stageOneData) {
 exports.fetchAttendanceV2 = functions
     .region("us-central1")
     .runWith({ timeoutSeconds: 30, memory: "512MB" })
-    .https.onCall((data, context) => {
-        if (context.auth && context.auth.uid)
-            return openBrowserMinimal()
-                .then(goToUIMS)
-                .then(() => loginToUIMS({ uid: data.uid, pass: data.pass }))
-                .then(scrapeAttendance)
-                .then((scrapedData) => {
-                    logoutFromUIMS();
-                    return prepStageOne(scrapedData);
-                })
-                .then((stageOnePrepped) => prepStageTwo(stageOnePrepped))
-                .then((stageTwoPrepped) => {
-                    return stageTwoPrepped;
-                })
-                .catch((e) => {
-                    if (
-                        e.message === "Some issue with Puppeteer" ||
-                        e.message === "Unable to open UIMS" ||
-                        e.message === "Incorrect UIMS Credentials" ||
-                        e.message === "Unable to login" ||
-                        e.message === "Unable to scrape Attendance"
-                    ) {
-                        return { desc: "error", error: e.message };
-                    }
-                    console.log(e);
-                });
-        else return { desc: "error", error: "you're not supposed to do that" };
+    .https.onCall(async (data, context) => {
+        if (context.auth && context.auth.uid) {
+            const doc = await db
+                .collection("users")
+                .doc(context.auth.uid)
+                .get();
+            if (!doc.exists) {
+                console.log("No such document!");
+            } else {
+                console.log("Document data:", doc.data());
+            }
+            // return openBrowserMinimal()
+            //     .then(goToUIMS)
+            //     .then(() => loginToUIMS({ uid: data.uid, pass: data.pass }))
+            //     .then(scrapeAttendance)
+            //     .then((scrapedData) => {
+            //         logoutFromUIMS();
+            //         return prepStageOne(scrapedData);
+            //     })
+            //     .then((stageOnePrepped) => prepStageTwo(stageOnePrepped))
+            //     .then((stageTwoPrepped) => {
+            //         return stageTwoPrepped;
+            //     })
+            //     .catch((e) => {
+            //         if (
+            //             e.message === "Some issue with Puppeteer" ||
+            //             e.message === "Unable to open UIMS" ||
+            //             e.message === "Incorrect UIMS Credentials" ||
+            //             e.message === "Unable to login" ||
+            //             e.message === "Unable to scrape Attendance"
+            //         ) {
+            //             return { desc: "error", error: e.message };
+            //         }
+            //         console.log(e);
+            //     });
+            return { desc: "error", error: "we're working" };
+        } else
+            return { desc: "error", error: "you're not supposed to do that" };
     });
