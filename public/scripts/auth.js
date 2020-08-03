@@ -15,6 +15,20 @@ const setupUI = (user) => {
 
 auth.onAuthStateChanged((user) => {
     if (user) {
+        var fetchAttendance = firebase
+            .functions()
+            .httpsCallable("fetchAttendanceV2");
+        fetchAttendance().then((result) => {
+            if (result.data.desc != "error") {
+                sessionStorage.setItem(
+                    "attendanceData",
+                    JSON.stringify(result.data)
+                );
+                M.toast({ html: "attendance synced" });
+            } else {
+                M.toast({ html: result.error });
+            }
+        });
         setupUI(user);
     } else {
         setupUI();
