@@ -6,6 +6,17 @@ const setupUI = (user) => {
         // toggle user UI elements
         loggedInLinks.forEach((item) => (item.style.display = "block"));
         loggedOutLinks.forEach((item) => (item.style.display = "none"));
+        if (
+            sessionStorage.getItem("attendanceData") == null ||
+            JSON.parse(sessionStorage.getItem("attendanceData")).desc === "demo"
+        ) {
+            $("#nav-my-attendance").hide();
+            $("#sidenav-my-attendance").hide();
+            fetchAttendance();
+        } else {
+            $("#nav-my-attendance").show();
+            $("#sidenav-my-attendance").show();
+        }
     } else {
         // toggle user elements
         loggedInLinks.forEach((item) => (item.style.display = "none"));
@@ -15,25 +26,41 @@ const setupUI = (user) => {
 
 auth.onAuthStateChanged((user) => {
     if (user) {
-        var fetchAttendance = firebase
-            .functions()
-            .httpsCallable("fetchAttendanceV2");
-        fetchAttendance().then((result) => {
-            if (result.data.desc != "error") {
-                sessionStorage.setItem(
-                    "attendanceData",
-                    JSON.stringify(result.data)
-                );
-                M.toast({ html: "attendance synced" });
-            } else {
-                M.toast({ html: result.error });
-            }
-        });
         setupUI(user);
     } else {
         setupUI();
     }
 });
+
+// Request attendance
+function fetchAttendance() {
+    M.toast({ html: "syncing attendance data" });
+    var fetchAttendanceV2 = firebase
+        .functions()
+        .httpsCallable("fetchAttendanceV2");
+
+    fetchAttendanceV2().then((result) => {
+        if (result.data.desc != "error") {
+            sessionStorage.setItem(
+                "attendanceData",
+                JSON.stringify(result.data)
+            );
+            var toastHTML =
+                '<span>attendance data synced</span><a class="yellow-text btn-flat toast-action" href="./demo.html">See</a>';
+            M.toast({ html: toastHTML });
+
+            $("#nav-my-attendance").show();
+            $("#sidenav-my-attendance").show();
+        } else {
+            M.toast({
+                html: "attendance data couldn't be synced",
+            });
+
+            $("#nav-my-attendance").hide();
+            $("#sidenav-my-attendance").hide();
+        }
+    });
+}
 
 // login with UA
 const formLoginWithUA = document.querySelector("#login-with-ua-form");
@@ -61,27 +88,8 @@ if (formLoginWithUA != null) {
                         M.Modal.getInstance($(".modal")).close();
                         $(".modal").modal();
                     }
-                    // if (window.location.href.search(/.*\/demo\.html/i) >= 0)
-                    //     window.location = "./index.html";
-
-                    // Request attendance
-                    var fetchAttendance = firebase
-                        .functions()
-                        .httpsCallable("fetchAttendanceV2");
-
-                    console.log(user);
-
-                    fetchAttendance().then((result) => {
-                        if (result.data.desc != "error") {
-                            sessionStorage.setItem(
-                                "attendanceData",
-                                JSON.stringify(result.data)
-                            );
-                            M.toast({ html: "attendance synced" });
-                        } else {
-                            M.toast({ html: "attendance couldn't be synced" });
-                        }
-                    });
+                    if (window.location.href.search(/.*\/demo\.html/i) >= 0)
+                        window.location = "./index.html";
                 })
                 .catch(function (error) {
                     grecaptcha.reset();

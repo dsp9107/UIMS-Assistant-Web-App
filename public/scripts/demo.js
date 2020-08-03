@@ -20,7 +20,7 @@ $(document).ready(function () {
     var instances = M.Sidenav.init(elems, options);
     adjustNavbarTitle();
 
-    if (JSON.parse(sessionStorage.getItem("uims-auth"))) {
+    if (!!auth.currentUser) {
         return loadEverything("attendance data loaded");
     } else {
         extInstalled().catch((e) =>
