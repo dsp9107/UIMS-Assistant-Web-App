@@ -1,6 +1,10 @@
 const extID = "fpegbdpjlgmlbjphonekhfomopigahfb";
 
 $(document).ready(function () {
+    // console.log(
+    //     !!auth.currentUser ||
+    //         JSON.parse(sessionStorage.getItem("attendanceData")).desc === "data"
+    // );
     $(".fixed-action-btn").floatingActionButton();
     $(".tooltipped").tooltip();
     $(".modal").modal();
@@ -20,7 +24,12 @@ $(document).ready(function () {
     var instances = M.Sidenav.init(elems, options);
     adjustNavbarTitle();
 
-    if (!!auth.currentUser) {
+    if (
+        !!auth.currentUser ||
+        (sessionStorage.getItem("attendanceData") &&
+            JSON.parse(sessionStorage.getItem("attendanceData")).desc ===
+                "data")
+    ) {
         return loadEverything("attendance data loaded");
     } else {
         extInstalled().catch((e) =>
@@ -268,7 +277,7 @@ function generateChart() {
                             JSON.parse(sessionStorage.getItem("attendanceData"))
                                 .data[tooltipItem.index].attendance.eligible
                                 .delv
-                        } lectures`;
+                        } sessions`;
                     },
                 },
             },
@@ -319,14 +328,14 @@ function setupSubjectCards() {
 
             seventyFy = absents(a, d, p, 75);
             if (seventyFy) {
-                seventyFy = `can leave ${seventyFy} lecture(s)`;
+                seventyFy = `can leave ${seventyFy} session(s)`;
             } else {
                 seventyFy = `<strong>try to maintain</strong>`;
             }
 
             nineTee = absents(a, d, p, 90);
             if (nineTee) {
-                nineTee = `can leave ${nineTee} lecture(s)`;
+                nineTee = `can leave ${nineTee} session(s)`;
             } else {
                 nineTee = `<strong>try to maintain</strong>`;
             }
@@ -336,22 +345,22 @@ function setupSubjectCards() {
 
             seventyFy = absents(a, d, p, 75);
             if (seventyFy) {
-                seventyFy = `can leave ${seventyFy} lecture(s)`;
+                seventyFy = `can leave ${seventyFy} session(s)`;
             } else {
                 seventyFy = `<strong>try to maintain</strong>`;
             }
 
             nineTee = presents(a, d, p, 90);
             if (nineTee) {
-                nineTee = `behind by ${nineTee} lecture(s)`;
+                nineTee = `behind by ${nineTee} session(s)`;
             } else {
                 nineTee = `<strong>try to maintain</strong>`;
             }
         } else {
             clazz = ".lessThan75";
             paint = "red darken-1";
-            seventyFy = `behind by ${presents(a, d, p, 75)} lectures`;
-            nineTee = `behind by ${presents(a, d, p, 90)} lectures`;
+            seventyFy = `behind by ${presents(a, d, p, 75)} session(s)`;
+            nineTee = `behind by ${presents(a, d, p, 90)} session(s)`;
         }
 
         $(clazz).append(`

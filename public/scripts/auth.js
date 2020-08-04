@@ -28,6 +28,12 @@ auth.onAuthStateChanged((user) => {
     if (user) {
         setupUI(user);
     } else {
+        if (
+            sessionStorage.getItem("attendanceData") &&
+            JSON.parse(sessionStorage.getItem("attendanceData")).desc === "data"
+        ) {
+            sessionStorage.removeItem("attendanceData");
+        }
         setupUI();
     }
 });
@@ -40,25 +46,29 @@ function fetchAttendance() {
         .httpsCallable("fetchAttendanceV2");
 
     fetchAttendanceV2().then((result) => {
+        console.log(result);
+        var toastContent;
         if (result.data.desc != "error") {
             sessionStorage.setItem(
                 "attendanceData",
                 JSON.stringify(result.data)
             );
-            var toastHTML =
+            toastContent =
                 '<span>attendance data synced</span><a class="yellow-text btn-flat toast-action" href="./demo.html">See</a>';
-            M.toast({ html: toastHTML });
 
             $("#nav-my-attendance").show();
             $("#sidenav-my-attendance").show();
         } else {
-            M.toast({
-                html: "attendance data couldn't be synced",
-            });
-
+            if (result.data.error === "uims creds not updated") {
+                toastContent =
+                    '<span>uims creds not updated</span><a class="yellow-text btn-flat toast-action modal-trigger" data-target="modal-update-uims-creds">Update</a>';
+            } else {
+                toastContent = "attendance data couldn't be synced";
+            }
             $("#nav-my-attendance").hide();
             $("#sidenav-my-attendance").hide();
         }
+        M.toast({ html: toastContent });
     });
 }
 
@@ -114,7 +124,52 @@ if (formLoginWithUIMS != null) {
             $("#modal-login-with-uims .error").text("sorry, we just closed.");
             $("#modal-login-with-uims .error").show();
             $("#modal-login-with-uims .progress").hide();
-        }, 3000);
+        }, 1200);
+    });
+}
+
+// Update UIMS creds
+const formUpdateCredsUIMS = document.querySelector("#update-uims-creds-form");
+if (formUpdateCredsUIMS != null) {
+    formUpdateCredsUIMS.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // get uims creds
+        const uid = formUpdateCredsUIMS["update-uims-creds-username"].value;
+        const pass = formUpdateCredsUIMS["update-uims-creds-password"].value;
+
+        var updateCredsUIMS = firebase
+            .functions()
+            .httpsCallable("updateCredsUIMS");
+
+        $("#modal-update-uims-creds .form-submit-button").hide();
+        $("#modal-update-uims-creds .error").hide();
+        $("#modal-update-uims-creds .progress").show();
+
+        updateCredsUIMS({ uid, pass })
+            .then((updatedSuccessfully) => {
+                if ($(".modal")) {
+                    M.Modal.getInstance($(".modal")).close();
+                    $(".modal").modal();
+                }
+
+                if (updatedSuccessfully) {
+                    M.toast({ html: "updated successfully" });
+                } else {
+                    M.toast({ html: "update failed" });
+                }
+
+                if (window.location.href.search(/.*\/demo(\.html)?/i) >= 0)
+                    window.location = "./index.html";
+            })
+            .catch((e) => {
+                console.log(e);
+                if ($(".modal")) {
+                    M.Modal.getInstance($(".modal")).close();
+                    $(".modal").modal();
+                }
+                M.toast({ html: "update failed" });
+            });
     });
 }
 
@@ -132,7 +187,7 @@ logoutTriggers.forEach((logoutTrigger) => {
                     if ($(".modal")) {
                         $(".modal").modal();
                     }
-                    if (window.location.href.search(/.*\/demo\.html/i) < 0)
+                    if (window.location.href.search(/.*\/demo(\.html)?/i) < 0)
                         window.location = "./index.html";
                 })
                 .catch((err) => {

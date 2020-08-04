@@ -8,7 +8,7 @@ const db = admin.firestore();
 exports.ping = functions
     .region("asia-east2")
     .https.onRequest((request, response) => {
-        return response.send("pongy");
+        return response.send("pong");
     });
 
 // ACTUAL LOGIC STARTS HERE
@@ -251,14 +251,20 @@ function prepStageTwo(stageOneData) {
 
 exports.updateCredsUIMS = functions
     .region("us-central1")
-    .runWith({ timeoutSeconds: 30, memory: "128MB" })
+    .runWith({ timeoutSeconds: 10, memory: "128MB" })
     .https.onCall(async (data, context) => {
         if (context.auth && context.auth.uid) {
-            await db
+            return await db
                 .collection("users")
                 .doc(context.auth.uid)
-                .set({ "uims-creds": { uid: data.uid, pass: data.pass } });
-            return true;
+                .set({ "uims-creds": { uid: data.uid, pass: data.pass } })
+                .then((success) => {
+                    return true;
+                })
+                .catch((error) => {
+                    console.log({ error });
+                    return false;
+                });
         } else return false;
     });
 
@@ -279,38 +285,55 @@ exports.fetchAttendanceV2 = functions
                         };
                     } else {
                         var uimsCreds = doc.data()["uims-creds"];
-                        return openBrowserMinimal()
-                            .then(goToUIMS)
-                            .then(() => {
-                                return loginToUIMS({
-                                    uid: uimsCreds.uid,
-                                    pass: uimsCreds.pass,
+                        if (uimsCreds && uimsCreds.uid && uimsCreds.pass)
+                            return openBrowserMinimal()
+                                .then(goToUIMS)
+                                .then(() => {
+                                    return loginToUIMS({
+                                        uid: uimsCreds.uid,
+                                        pass: uimsCreds.pass,
+                                    });
+                                })
+                                .then(scrapeAttendance)
+                                .then((scrapedData) => {
+                                    logoutFromUIMS();
+                                    return prepStageOne(scrapedData);
+                                })
+                                .then((stageOnePrepped) =>
+                                    prepStageTwo(stageOnePrepped)
+                                )
+                                .then((stageTwoPrepped) => {
+                                    return stageTwoPrepped;
+                                })
+                                .catch((e) => {
+                                    if (
+                                        e.message ===
+                                            "Some issue with Puppeteer" ||
+                                        e.message === "Unable to open UIMS" ||
+                                        e.message === "Unable to login" ||
+                                        e.message ===
+                                            "Unable to scrape Attendance"
+                                    ) {
+                                        return {
+                                            desc: "error",
+                                            error: e.message,
+                                        };
+                                    } else if (
+                                        e.message ===
+                                        "Incorrect UIMS Credentials"
+                                    ) {
+                                        return {
+                                            desc: "error",
+                                            error: "uims creds not updated",
+                                        };
+                                    }
+                                    console.log(e);
                                 });
-                            })
-                            .then(scrapeAttendance)
-                            .then((scrapedData) => {
-                                logoutFromUIMS();
-                                return prepStageOne(scrapedData);
-                            })
-                            .then((stageOnePrepped) =>
-                                prepStageTwo(stageOnePrepped)
-                            )
-                            .then((stageTwoPrepped) => {
-                                return stageTwoPrepped;
-                            })
-                            .catch((e) => {
-                                if (
-                                    e.message === "Some issue with Puppeteer" ||
-                                    e.message === "Unable to open UIMS" ||
-                                    e.message ===
-                                        "Incorrect UIMS Credentials" ||
-                                    e.message === "Unable to login" ||
-                                    e.message === "Unable to scrape Attendance"
-                                ) {
-                                    return { desc: "error", error: e.message };
-                                }
-                                console.log(e);
-                            });
+                        else
+                            return {
+                                desc: "error",
+                                error: "uims creds not updated",
+                            };
                     }
                 })
                 .catch((e) => {
