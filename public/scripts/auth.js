@@ -40,13 +40,15 @@ auth.onAuthStateChanged((user) => {
 
 // Request attendance
 function fetchAttendance() {
+    $("#nav-spinner-sync .error").hide();
+    $("#nav-spinner-sync .syncing").show();
     M.toast({ html: "syncing attendance data" });
     var fetchAttendanceV2 = firebase
         .functions()
         .httpsCallable("fetchAttendanceV2");
 
     fetchAttendanceV2().then((result) => {
-        console.log(result);
+        M.Toast.dismissAll();
         var toastContent;
         if (result.data.desc != "error") {
             sessionStorage.setItem(
@@ -55,6 +57,12 @@ function fetchAttendance() {
             );
             toastContent =
                 '<span>attendance data synced</span><a class="yellow-text btn-flat toast-action" href="./demo.html">See</a>';
+
+            $("#nav-spinner-sync .syncing").hide();
+            $("#nav-spinner-sync .synced").show();
+            setTimeout(function () {
+                $("#nav-spinner-sync .synced").hide();
+            }, 6000);
 
             $("#nav-my-attendance").show();
             $("#sidenav-my-attendance").show();
@@ -65,10 +73,14 @@ function fetchAttendance() {
             } else {
                 toastContent = "attendance data couldn't be synced";
             }
+
+            $("#nav-spinner-sync .syncing").hide();
+            $("#nav-spinner-sync .error").show();
+
             $("#nav-my-attendance").hide();
             $("#sidenav-my-attendance").hide();
         }
-        M.toast({ html: toastContent });
+        M.toast({ html: toastContent, displayLength: 60000 });
     });
 }
 
@@ -152,9 +164,17 @@ if (formUpdateCredsUIMS != null) {
                     M.Modal.getInstance($(".modal")).close();
                     $(".modal").modal();
                 }
+                formUpdateCredsUIMS.reset();
+
+                $("#modal-update-uims-creds .error").hide();
+                $("#modal-update-uims-creds .progress").hide();
+                $("#modal-update-uims-creds .form-submit-button").show();
 
                 if (updatedSuccessfully) {
                     M.toast({ html: "updated successfully" });
+                    $("#nav-my-attendance").hide();
+                    $("#sidenav-my-attendance").hide();
+                    fetchAttendance();
                 } else {
                     M.toast({ html: "update failed" });
                 }

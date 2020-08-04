@@ -60,3 +60,12 @@ ul.collapsible.popout > li.active {
 #login-with-uims-form .progress {
     margin: 1rem 0;
 }
+
+#nav-spinner-sync .preloader-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
