@@ -643,6 +643,84 @@
             </div>
         </div>
 
+        <div id="nav-spinner-sync" class="fixed-action-btn">
+            <a
+                class="syncing btn-floating btn-large blue-grey darken-4 tooltipped"
+                data-position="left"
+                data-tooltip="syncing"
+                style="display: none;"
+            >
+                <div class="preloader-wrapper small active">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a
+                class="synced btn-floating btn-large green accent-3 tooltipped"
+                data-position="left"
+                data-tooltip="synced"
+                style="display: none;"
+                href="./demo.html"
+            >
+                <i class="material-icons blue-grey-text text-darken-4">check</i>
+            </a>
+            <a
+                class="error btn-floating btn-large yellow tooltipped"
+                data-position="left"
+                data-tooltip="couldn't sync"
+                style="display: none;"
+            >
+                <i class="material-icons blue-grey-text text-darken-4"
+                    >error_outline</i
+                >
+            </a>
+        </div>
+
         <!-- FOOTER -->
         <footer class="page-footer red accent-3">
             <div class="container">
@@ -780,9 +858,11 @@
                 $(".collapsible").collapsible();
                 $(".modal").modal({
                     onOpenEnd: function () {
-                        $(this).find("input:first").focus();
+                        M.Toast.dismissAll();
                     },
                 });
+                $(".fixed-action-btn").floatingActionButton();
+                $(".tooltipped").tooltip();
 
                 adjustNavbarTitle();
 
