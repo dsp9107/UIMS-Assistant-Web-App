@@ -89,13 +89,15 @@ function fetchAttendance() {
 			$("#nav-spinner-sync .syncing").hide();
 			$("#nav-spinner-sync .error").show();
 
+			$("#nav-my-attendance").hide();
+			$("#sidenav-my-attendance").hide();
+
+			console.log(err);
+
 			M.toast({
 				html: "attendance data couldn't be synced",
 				displayLength: 60000,
 			});
-
-			$("#nav-my-attendance").hide();
-			$("#sidenav-my-attendance").hide();
 		});
 }
 
