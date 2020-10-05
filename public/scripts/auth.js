@@ -24,7 +24,7 @@ const setupUI = (user) => {
 	}
 };
 
-auth.onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged((user) => {
 	if (user) {
 		setupUI(user);
 	} else {
@@ -44,6 +44,7 @@ function fetchAttendance() {
 	$("#nav-spinner-sync .syncing").show();
 	M.toast({ html: "syncing attendance data" });
 	var fetchAttendanceV2 = firebase
+		.app()
 		.functions()
 		.httpsCallable("fetchAttendanceV2");
 
@@ -107,11 +108,11 @@ if (formLoginWithUA != null) {
 	formLoginWithUA.addEventListener("submit", (e) => {
 		e.preventDefault();
 
-		var response = grecaptcha.getResponse();
-		if (response.length == 0) {
-			$("#modal-login-with-ua .error").text("captcha required");
-			$("#modal-login-with-ua .error").show();
-		} else {
+		// var response = grecaptcha.getResponse();
+		// if (response.length == 0) {
+		// 	$("#modal-login-with-ua .error").text("captcha required");
+		// 	$("#modal-login-with-ua .error").show();
+		// } else {
 			$("#modal-login-with-ua .form-submit-button").hide();
 			$("#modal-login-with-ua .error").hide();
 			$("#modal-login-with-ua .progress").show();
@@ -121,7 +122,9 @@ if (formLoginWithUA != null) {
 			const password = formLoginWithUA["login-with-ua-password"].value;
 
 			// log the user in
-			auth.signInWithEmailAndPassword(email, password)
+			firebase
+				.auth()
+				.signInWithEmailAndPassword(email, password)
 				.then((user) => {
 					if ($(".modal")) {
 						M.Modal.getInstance($(".modal")).close();
@@ -131,13 +134,13 @@ if (formLoginWithUA != null) {
 						window.location = "./index.html";
 				})
 				.catch(function (error) {
-					grecaptcha.reset();
+					// grecaptcha.reset();
 					$("#modal-login-with-ua .error").text(error.message);
 					$("#modal-login-with-ua .error").show();
 					$("#modal-login-with-ua .progress").hide();
 					$("#modal-login-with-ua .form-submit-button").show();
 				});
-		}
+		// }
 	});
 }
 
@@ -217,7 +220,9 @@ logoutTriggers.forEach((logoutTrigger) => {
 	if (logoutTrigger != null) {
 		logoutTrigger.addEventListener("click", (e) => {
 			e.preventDefault();
-			auth.signOut()
+			firebase
+				.auth()
+				.signOut()
 				.then(() => {
 					sessionStorage.setItem("uims-auth", false);
 					sessionStorage.removeItem("attendanceData");

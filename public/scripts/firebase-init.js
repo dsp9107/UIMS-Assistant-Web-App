@@ -12,12 +12,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 firebase.analytics();
-
-var auth = firebase.auth();
-
+firebase.performance();
 firebase.functions();
 
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1")
 	firebase.functions().useFunctionsEmulator("http://localhost:5001");
-
-firebase.performance();
