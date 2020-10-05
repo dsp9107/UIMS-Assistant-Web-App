@@ -44,7 +44,6 @@ function fetchAttendance() {
 	$("#nav-spinner-sync .syncing").show();
 	M.toast({ html: "syncing attendance data" });
 	var fetchAttendanceV2 = firebase
-		.app()
 		.functions()
 		.httpsCallable("fetchAttendanceV2");
 
