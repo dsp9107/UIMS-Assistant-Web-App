@@ -1,467 +1,478 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" type="image/png" href="./icons/favicon.png" />
-        <title>UIMS Assistant - Demo</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" href="./icons/favicon.png" />
+		<title>UIMS Assistant - Demo</title>
 
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
-            integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="
-            crossorigin="anonymous"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/icon?family=Material+Icons"
-            rel="stylesheet"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" type="text/css" href="./styles/style.css" />
-        <link rel="stylesheet" type="text/css" href="./styles/demo.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
+			integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+		/>
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" type="text/css" href="./styles/style.css" />
+		<link rel="stylesheet" type="text/css" href="./styles/demo.css" />
 
-        <!-- RECAPTCHA -->
-        <script
-            src="https://www.google.com/recaptcha/api.js"
-            async
-            defer
-        ></script>
-    </head>
-    <body>
-        <!-- NAVBAR -->
-        <div class="navbar-fixed">
-            <nav class="red accent-3">
-                <div class="nav-wrapper container">
-                    <ul id="nav-mobile" class="left hide-on-med-and-down">
-                        <li>
-                            <a href="./index.html"
-                                ><i class="material-icons white-text left"
-                                    >arrow_back</i
-                                ><strong>Go back</strong></a
-                            >
-                        </li>
-                    </ul>
-                    <a href="./index.html" class="brand-logo white-text center"
-                        >UIMS Assistant</a
-                    >
-                    <a
-                        href="#"
-                        data-target="mobile-demo"
-                        class="sidenav-trigger"
-                        ><i class="material-icons">menu</i></a
-                    >
-                    <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <li
-                            id="nav-cta-btn-download-chrome-ext"
-                            class="tooltipped yellow"
-                            data-position="left"
-                            data-tooltip="Download Extension"
-                            style="display: none;"
-                        >
-                            <a
-                                target="_blank"
-                                href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
-                                ><i class="material-icons black-text"
-                                    >file_download</i
-                                ></a
-                            >
-                        </li>
-                        <li class="logged-out yellow" style="display: none;">
-                            <a
-                                class="dropdown-trigger black-text"
-                                data-target="dropdown1"
-                                >Login<i class="material-icons right"
-                                    >arrow_drop_down</i
-                                ></a
-                            >
-                        </li>
-                        <li class="logged-in" style="display: none;">
-                            <a href="javaScript:void(0);" class="logout-fx"
-                                >Logout</a
-                            >
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
+		<!-- RECAPTCHA -->
+		<script
+			src="https://www.google.com/recaptcha/api.js"
+			async
+			defer
+		></script>
+	</head>
+	<body>
+		<!-- NAVBAR -->
+		<div class="navbar-fixed">
+			<nav class="red accent-3">
+				<div class="nav-wrapper container">
+					<ul id="nav-mobile" class="left hide-on-med-and-down">
+						<li>
+							<a href="./index.html"
+								><i class="material-icons white-text left"
+									>arrow_back</i
+								><strong>Go back</strong></a
+							>
+						</li>
+					</ul>
+					<a href="./index.html" class="brand-logo white-text center"
+						>UIMS Assistant</a
+					>
+					<a
+						href="#"
+						data-target="mobile-demo"
+						class="sidenav-trigger"
+						><i class="material-icons">menu</i></a
+					>
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<li
+							id="nav-cta-btn-download-chrome-ext"
+							class="tooltipped yellow"
+							data-position="left"
+							data-tooltip="Download Extension"
+							style="display: none"
+						>
+							<a
+								target="_blank"
+								href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
+								><i class="material-icons black-text"
+									>file_download</i
+								></a
+							>
+						</li>
+						<li class="logged-out yellow" style="display: none">
+							<a
+								class="dropdown-trigger black-text"
+								data-target="dropdown1"
+								>Login<i class="material-icons right"
+									>arrow_drop_down</i
+								></a
+							>
+						</li>
+						<li class="logged-in" style="display: none">
+							<a href="javaScript:void(0);" class="logout-fx"
+								>Logout</a
+							>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
 
-        <!-- Dropdown Structure -->
-        <ul id="dropdown1" class="dropdown-content red accent-3">
-            <li class="divider" tabindex="-1"></li>
-            <li>
-                <a
-                    href="javaScript:void(0);"
-                    class="modal-trigger white-text"
-                    data-target="modal-login-with-ua"
-                    >Already registered ?</a
-                >
-            </li>
-            <li class="divider" tabindex="-1"></li>
-            <li>
-                <a
-                    href="javaScript:void(0);"
-                    class="modal-trigger white-text"
-                    data-target="modal-login-with-uims"
-                    >Login with UIMS Creds</a
-                >
-            </li>
-        </ul>
+		<!-- Dropdown Structure -->
+		<ul id="dropdown1" class="dropdown-content red accent-3">
+			<li class="divider" tabindex="-1"></li>
+			<li>
+				<a
+					href="javaScript:void(0);"
+					class="modal-trigger white-text"
+					data-target="modal-login-with-ua"
+					>Already registered ?</a
+				>
+			</li>
+			<li class="divider" tabindex="-1"></li>
+			<li>
+				<a
+					href="javaScript:void(0);"
+					class="modal-trigger white-text"
+					data-target="modal-login-with-uims"
+					>Login with UIMS Creds</a
+				>
+			</li>
+		</ul>
 
-        <!-- SIDENAV -->
-        <ul class="sidenav" id="mobile-demo">
-            <li class="red accent-3 white-text">
-                <div
-                    class="red accent-3 white-text"
-                    style="margin-top: 8px; margin-left: 12px;"
-                >
-                    <a
-                        id="sidenav-brand-logo"
-                        class="red accent-3 white-text"
-                        href="./index.html"
-                        >UIMS Assistant</a
-                    >
-                </div>
-            </li>
-            <li><div class="divider"></div></li>
-            <li>
-                <a
-                    id="sidenav-cta-btn-download-chrome-ext"
-                    href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
-                    target="_blank"
-                    ><i class="material-icons left">file_download</i>Download
-                    Extension</a
-                >
-            </li>
-            <li>
-                <a
-                    id="sidenav-cta-btn-go-premium"
-                    class="modal-trigger"
-                    data-target="modal-premium"
-                    style="cursor: pointer;"
-                    ><i class="material-icons left">attach_money</i>Go
-                    Premium</a
-                >
-            </li>
+		<!-- SIDENAV -->
+		<ul class="sidenav" id="mobile-demo">
+			<li class="red accent-3 white-text">
+				<div
+					class="red accent-3 white-text"
+					style="margin-top: 8px; margin-left: 12px"
+				>
+					<a
+						id="sidenav-brand-logo"
+						class="red accent-3 white-text"
+						href="./index.html"
+						>UIMS Assistant</a
+					>
+				</div>
+			</li>
+			<li><div class="divider"></div></li>
+			<li>
+				<a
+					id="sidenav-cta-btn-download-chrome-ext"
+					href="https://chrome.google.com/webstore/detail/uims-assistant/fpegbdpjlgmlbjphonekhfomopigahfb"
+					target="_blank"
+					><i class="material-icons left">file_download</i>Download
+					Extension</a
+				>
+			</li>
+			<li>
+				<a
+					id="sidenav-cta-btn-go-premium"
+					class="modal-trigger"
+					data-target="modal-premium"
+					style="cursor: pointer"
+					><i class="material-icons left">attach_money</i>Go
+					Premium</a
+				>
+			</li>
 
-            <li><div class="divider"></div></li>
+			<li><div class="divider"></div></li>
 
-            <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li class="logged-out" style="display: none;" >
-                        <a class="collapsible-header"
-                            >Login
-                            <i class="material-icons">arrow_drop_down</i></a
-                        >
-                        <div class="collapsible-body">
-                            <ul>
-                                <li>
-                                    <a
-                                        href="javaScript:void(0);"
-                                        class="modal-trigger"
-                                        data-target="modal-login-with-ua"
-                                        >Already registered ?</a
-                                    >
-                                </li>
-                                <li>
-                                    <a
-                                        href="javaScript:void(0);"
-                                        class="modal-trigger"
-                                        data-target="modal-login-with-uims"
-                                        >Login with UIMS Creds</a
-                                    >
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="logged-in" style="display: none;">
-                        <a
-                            href="javaScript:void(0);"
-                            class="modal-trigger"
-                            data-target="modal-update-uims-creds"
-                            >Update UIMS Creds</a
-                        >
-                    </li>
-                    <li class="logged-in" style="display: none;">
-                        <a href="javaScript:void(0);" class="logout-fx"
-                            >Logout</a
-                        >
-                    </li>
-                </ul>
-            </li>
-        </ul>
+			<li class="no-padding">
+				<ul class="collapsible collapsible-accordion">
+					<li class="logged-out" style="display: none">
+						<a class="collapsible-header"
+							>Login
+							<i class="material-icons">arrow_drop_down</i></a
+						>
+						<div class="collapsible-body">
+							<ul>
+								<li>
+									<a
+										href="javaScript:void(0);"
+										class="modal-trigger"
+										data-target="modal-login-with-ua"
+										>Already registered ?</a
+									>
+								</li>
+								<li>
+									<a
+										href="javaScript:void(0);"
+										class="modal-trigger"
+										data-target="modal-login-with-uims"
+										>Login with UIMS Creds</a
+									>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="logged-in" style="display: none">
+						<a
+							href="javaScript:void(0);"
+							class="modal-trigger"
+							data-target="modal-update-uims-creds"
+							>Update UIMS Creds</a
+						>
+					</li>
+					<li class="logged-in" style="display: none">
+						<a href="javaScript:void(0);" class="logout-fx"
+							>Logout</a
+						>
+					</li>
+				</ul>
+			</li>
+		</ul>
 
-        <!-- LOGIN WITH UA MODAL -->
-        <div id="modal-login-with-ua" class="modal">
-            <div class="modal-content">
-                <div class="row">
-                    <div class="col s12 flex flex-col">
-                        <h4>Registered UA User</h4>
-                        <form id="login-with-ua-form">
-                            <div class="input-field">
-                                <input
-                                    type="text"
-                                    id="login-with-ua-username"
-                                    required
-                                />
-                                <label for="login-with-ua-username"
-                                    >Email address</label
-                                >
-                            </div>
-                            <div class="input-field">
-                                <input
-                                    type="password"
-                                    id="login-with-ua-password"
-                                    required
-                                />
-                                <label for="login-with-ua-password"
-                                    >Password</label
-                                >
-                            </div>
+		<!-- LOGIN WITH UA MODAL -->
+		<div id="modal-login-with-ua" class="modal">
+			<div class="modal-content">
+				<div class="row">
+					<div class="col s12 flex flex-col">
+						<h4>Registered UA User</h4>
+						<form id="login-with-ua-form">
+							<div class="input-field">
+								<input
+									type="text"
+									id="login-with-ua-username"
+									required
+								/>
+								<label for="login-with-ua-username"
+									>Email address</label
+								>
+							</div>
+							<div class="input-field">
+								<input
+									type="password"
+									id="login-with-ua-password"
+									required
+								/>
+								<label for="login-with-ua-password"
+									>Password</label
+								>
+							</div>
 
-                            <div
-                                class="g-recaptcha"
-                                data-sitekey="6LdtbrkZAAAAAJaNcPe3b22XsHif4Gbp_k4HYGof"
-                            ></div>
+							<div
+								class="g-recaptcha"
+								data-sitekey="6LdtbrkZAAAAAJaNcPe3b22XsHif4Gbp_k4HYGof"
+							></div>
 
-                            <button
-                                class="btn form-submit-button red accent-3 waves-effect waves-yellow z-depth-0"
-                            >
-                                Login
-                            </button>
+							<button
+								class="btn form-submit-button red accent-3 waves-effect waves-yellow z-depth-0"
+							>
+								Login
+							</button>
 
-                            <div
-                                class="progress red accent-3"
-                                style="display: none;"
-                            >
-                                <div class="indeterminate yellow"></div>
-                            </div>
-                            <p
-                                class="error red-text text-accent-3 center-align"
-                            ></p>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+							<div
+								class="progress red accent-3"
+								style="display: none"
+							>
+								<div class="indeterminate yellow"></div>
+							</div>
+							<p
+								class="error red-text text-accent-3 center-align"
+							></p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <!-- LOGIN WITH UIMS MODAL -->
-        <div id="modal-login-with-uims" class="modal">
-            <div class="modal-content">
-                <div class="row">
-                    <div class="col s12 flex flex-col">
-                        <h4>UIMS credentials</h4>
-                        <form id="login-with-uims-form">
-                            <div class="input-field">
-                                <input
-                                    type="text"
-                                    id="login-with-uims-username"
-                                    required
-                                />
-                                <label for="login-with-uims-username"
-                                    >UIMS Username</label
-                                >
-                            </div>
-                            <div class="input-field">
-                                <input
-                                    type="password"
-                                    id="login-with-uims-password"
-                                    required
-                                />
-                                <label for="login-with-uims-password"
-                                    >UIMS Password</label
-                                >
-                            </div>
+		<!-- LOGIN WITH UIMS MODAL -->
+		<div id="modal-login-with-uims" class="modal">
+			<div class="modal-content">
+				<div class="row">
+					<div class="col s12 flex flex-col">
+						<h4>UIMS credentials</h4>
+						<form id="login-with-uims-form">
+							<div class="input-field">
+								<input
+									type="text"
+									id="login-with-uims-username"
+									required
+								/>
+								<label for="login-with-uims-username"
+									>UIMS Username</label
+								>
+							</div>
+							<div class="input-field">
+								<input
+									type="password"
+									id="login-with-uims-password"
+									required
+								/>
+								<label for="login-with-uims-password"
+									>UIMS Password</label
+								>
+							</div>
 
-                            <div
-                                class="g-recaptcha"
-                                data-sitekey="6LdtbrkZAAAAAJaNcPe3b22XsHif4Gbp_k4HYGof"
-                            ></div>
+							<div
+								class="g-recaptcha"
+								data-sitekey="6LdtbrkZAAAAAJaNcPe3b22XsHif4Gbp_k4HYGof"
+							></div>
 
-                            <button
-                                class="btn form-submit-button red accent-3 waves-effect waves-yellow z-depth-0"
-                            >
-                                Login with UIMS credentials
-                            </button>
+							<button
+								class="btn form-submit-button red accent-3 waves-effect waves-yellow z-depth-0"
+							>
+								Login with UIMS credentials
+							</button>
 
-                            <div
-                                class="progress red accent-3"
-                                style="display: none;"
-                            >
-                                <div class="indeterminate yellow"></div>
-                            </div>
-                            <p
-                                class="error red-text text-accent-3 center-align"
-                            ></p>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+							<div
+								class="progress red accent-3"
+								style="display: none"
+							>
+								<div class="indeterminate yellow"></div>
+							</div>
+							<p
+								class="error red-text text-accent-3 center-align"
+							></p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <!-- UPDATE UIMS CREDS MODAL -->
-        <div id="modal-update-uims-creds" class="modal">
-            <div class="modal-content">
-                <div class="row">
-                    <div class="col s12 flex flex-col">
-                        <h4>Update UIMS credentials</h4>
-                        <form id="update-uims-creds-form">
-                            <div class="input-field">
-                                <input
-                                    type="text"
-                                    id="update-uims-creds-username"
-                                    required
-                                />
-                                <label for="update-uims-creds-username"
-                                    >UIMS Username</label
-                                >
-                            </div>
-                            <div class="input-field">
-                                <input
-                                    type="password"
-                                    id="update-uims-creds-password"
-                                    required
-                                />
-                                <label for="update-uims-creds-password"
-                                    >UIMS Password</label
-                                >
-                            </div>
+		<!-- UPDATE UIMS CREDS MODAL -->
+		<div id="modal-update-uims-creds" class="modal">
+			<div class="modal-content">
+				<div class="row">
+					<div class="col s12 flex flex-col">
+						<h4>Update UIMS credentials</h4>
+						<form id="update-uims-creds-form">
+							<div class="input-field">
+								<input
+									type="text"
+									id="update-uims-creds-username"
+									required
+								/>
+								<label for="update-uims-creds-username"
+									>UIMS Username</label
+								>
+							</div>
+							<div class="input-field">
+								<input
+									type="password"
+									id="update-uims-creds-password"
+									required
+								/>
+								<label for="update-uims-creds-password"
+									>UIMS Password</label
+								>
+							</div>
 
-                            <div
-                                class="g-recaptcha"
-                                data-sitekey="6LdtbrkZAAAAAJaNcPe3b22XsHif4Gbp_k4HYGof"
-                            ></div>
+							<div
+								class="g-recaptcha"
+								data-sitekey="6LdtbrkZAAAAAJaNcPe3b22XsHif4Gbp_k4HYGof"
+							></div>
 
-                            <button
-                                class="btn form-submit-button red accent-3 waves-effect waves-yellow z-depth-0"
-                            >
-                                Update
-                            </button>
+							<button
+								class="btn form-submit-button red accent-3 waves-effect waves-yellow z-depth-0"
+							>
+								Update
+							</button>
 
-                            <div
-                                class="progress red accent-3"
-                                style="display: none;"
-                            >
-                                <div class="indeterminate yellow"></div>
-                            </div>
-                            <p
-                                class="error red-text text-accent-3 center-align"
-                            ></p>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+							<div
+								class="progress red accent-3"
+								style="display: none"
+							>
+								<div class="indeterminate yellow"></div>
+							</div>
+							<p
+								class="error red-text text-accent-3 center-align"
+							></p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <!-- PREMIUM MODAL -->
-        <div id="modal-premium" class="modal">
-            <div class="modal-content">
-                <h3>Go Premium</h3>
-                <p class="flow-text">Hey there, thanks for showing interest.</p>
-                <p class="flow-text">
-                    As the UIMS Assistant is currently under development, the
-                    <strong>Premium</strong> feature is available on an
-                    invite-only basis. Ask around if any of your friends can
-                    send you an invite.
-                </p>
-                <p class="flow-text">
-                    Contact
-                    <a
-                        id="modal-premium-portfolio-contact"
-                        href="https://dhawalsinghpanwar.codes/#contact"
-                        target="_blank"
-                        ><strong>@dsp9107</strong></a
-                    >
-                    if any other query.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <a class="modal-close waves-effect waves-red btn-flat">Okay</a>
-            </div>
-        </div>
+		<!-- PREMIUM MODAL -->
+		<div id="modal-premium" class="modal">
+			<div class="modal-content">
+				<h3>Go Premium</h3>
+				<p class="flow-text">Hey there, thanks for showing interest.</p>
+				<p class="flow-text">
+					As the UIMS Assistant is currently under development, the
+					<strong>Premium</strong> feature is available on an
+					invite-only basis. Ask around if any of your friends can
+					send you an invite.
+				</p>
+				<p class="flow-text">
+					Contact
+					<a
+						id="modal-premium-portfolio-contact"
+						href="https://dhawalsinghpanwar.codes/#contact"
+						target="_blank"
+						><strong>@dsp9107</strong></a
+					>
+					if any other query.
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a class="modal-close waves-effect waves-red btn-flat">Okay</a>
+			</div>
+		</div>
 
-        <!-- CONTENT -->
-        <div class="container">
-            <div class="row">
-                <div id="chartHolder" class="col s12">
-                    <div class="preloader-wrapper big active" id="loader">
-                        <div class="spinner-layer spinner-blue-only accent-3">
-                            <div class="circle-clipper left">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="gap-patch">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="circle-clipper right">
-                                <div class="circle"></div>
-                            </div>
-                        </div>
-                    </div>
+		<!-- CONTENT -->
+		<div class="container">
+			<div class="row">
+				<div id="chartHolder" class="col s12">
+					<div class="preloader-wrapper big active" id="loader">
+						<div class="spinner-layer spinner-blue-only accent-3">
+							<div class="circle-clipper left">
+								<div class="circle"></div>
+							</div>
+							<div class="gap-patch">
+								<div class="circle"></div>
+							</div>
+							<div class="circle-clipper right">
+								<div class="circle"></div>
+							</div>
+						</div>
+					</div>
 
-                    <canvas
-                        id="myChart"
-                        width="640"
-                        height="480"
-                        style="display: none;"
-                    ></canvas>
-                </div>
-            </div>
+					<canvas
+						id="myChart"
+						width="640"
+						height="480"
+						style="display: none"
+					></canvas>
+				</div>
+			</div>
 
-            <div class="row subCardsHeader">
-                <div class="col s12 title" style="display: none;">
-                    <span class="flow-text">Here's the detailed breakup</span>
-                </div>
-                <div class="col s12 progress red accent-3">
-                    <div class="indeterminate yellow"></div>
-                </div>
-            </div>
+			<div class="row subCardsHeader">
+				<div class="col s12 title" style="display: none">
+					<span class="flow-text">Here's the detailed breakup</span>
+				</div>
+				<div class="col s12 progress red accent-3">
+					<div class="indeterminate yellow"></div>
+				</div>
+			</div>
 
-            <div class="row moreThan90" style="display: none;"></div>
+			<div class="row moreThan90" style="display: none"></div>
 
-            <div class="row safeBetween" style="display: none;"></div>
+			<div class="row safeBetween" style="display: none"></div>
 
-            <div class="row lessThan75" style="display: none;"></div>
-        </div>
+			<div class="row lessThan75" style="display: none"></div>
+		</div>
 
-        <!-- REFRESh BUTTON -->
-        <div class="fixed-action-btn">
-            <a
-                class="btn-floating btn-large green accent-4 tooltipped"
-                data-position="top"
-                data-tooltip="refresh"
-                id="refreshViewFAB"
-                onclick="refreshView()"
-            >
-                <i class="material-icons">refresh</i>
-            </a>
-        </div>
+		<!-- REFRESh BUTTON -->
+		<div class="fixed-action-btn">
+			<a
+				class="btn-floating btn-large green accent-4 tooltipped"
+				data-position="top"
+				data-tooltip="refresh"
+				id="refreshViewFAB"
+				onclick="refreshView()"
+			>
+				<i class="material-icons">refresh</i>
+			</a>
+		</div>
 
-        <!-- DEPENDENCIES -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
-            integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI="
-            crossorigin="anonymous"
-        ></script>
+		<!-- DEPENDENCIES -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-        <!-- FIREBASE -->
-        <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-functions.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-performance.js"></script>
-        <script src="./scripts/firebase-init.js"></script>
-        <script src="./scripts/custom-analytics.js"></script>
-        <script src="./scripts/responsiveTitle.js"></script>
-        <script src="./scripts/auth.js"></script>
-        <script src="./scripts/demoAttendance.js"></script>
-        <script src="./scripts/demo.js"></script>
-    </body>
+		<script>
+			var dropdowns = document.querySelectorAll(".dropdown-trigger");
+			var dropdownOptions = {
+				coverTrigger: false,
+				hover: true,
+				constrainWidth: false,
+			};
+			var dropdownInstances = M.Dropdown.init(dropdowns, dropdownOptions);
+		</script>
+
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+			integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI="
+			crossorigin="anonymous"
+		></script>
+
+		<!-- FIREBASE -->
+		<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-functions.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-performance.js"></script>
+		<script src="./scripts/firebase-init.js"></script>
+		<script src="./scripts/custom-analytics.js"></script>
+		<script src="./scripts/responsiveTitle.js"></script>
+		<script src="./scripts/auth.js"></script>
+		<script src="./scripts/demoAttendance.js"></script>
+		<script src="./scripts/demo.js"></script>
+	</body>
 </html>
