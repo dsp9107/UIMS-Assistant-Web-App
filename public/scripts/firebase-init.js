@@ -9,11 +9,21 @@ var firebaseConfig = {
 	measurementId: "G-3806LQMTMS",
 };
 
-firebase.initializeApp(firebaseConfig);
+const fbApp = firebase.initializeApp(firebaseConfig);
 
 firebase.analytics();
 firebase.performance();
-firebase.functions();
 
-if (location.hostname === "localhost" || location.hostname === "127.0.0.1")
-	firebase.functions().useFunctionsEmulator("http://localhost:5001");
+const fbFuncs = firebase.functions();
+
+ifInDebugMode();
+
+function ifInDebugMode() {
+	if (
+		location.hostname === "localhost" ||
+		location.hostname === "127.0.0.1"
+	) {
+		console.info("DEBUG MODE");
+		fbFuncs.useFunctionsEmulator("localhost", 5001);
+	}
+}

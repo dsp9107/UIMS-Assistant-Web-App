@@ -43,9 +43,8 @@ function fetchAttendance() {
 	$("#nav-spinner-sync .error").hide();
 	$("#nav-spinner-sync .syncing").show();
 	M.toast({ html: "syncing attendance data" });
-	var fetchAttendanceV2 = firebase
-		.functions()
-		.httpsCallable("fetchAttendanceV2");
+
+	var fetchAttendanceV2 = fbFuncs.httpsCallable("fetchAttendanceV2");
 
 	fetchAttendanceV2()
 		.then((result) => {
@@ -112,33 +111,33 @@ if (formLoginWithUA != null) {
 		// 	$("#modal-login-with-ua .error").text("captcha required");
 		// 	$("#modal-login-with-ua .error").show();
 		// } else {
-			$("#modal-login-with-ua .form-submit-button").hide();
-			$("#modal-login-with-ua .error").hide();
-			$("#modal-login-with-ua .progress").show();
+		$("#modal-login-with-ua .form-submit-button").hide();
+		$("#modal-login-with-ua .error").hide();
+		$("#modal-login-with-ua .progress").show();
 
-			// get user info
-			const email = formLoginWithUA["login-with-ua-email"].value;
-			const password = formLoginWithUA["login-with-ua-password"].value;
+		// get user info
+		const email = formLoginWithUA["login-with-ua-email"].value;
+		const password = formLoginWithUA["login-with-ua-password"].value;
 
-			// log the user in
-			firebase
-				.auth()
-				.signInWithEmailAndPassword(email, password)
-				.then((user) => {
-					if ($(".modal")) {
-						M.Modal.getInstance($(".modal")).close();
-						$(".modal").modal();
-					}
-					if (window.location.href.search(/.*\/demo\.html/i) >= 0)
-						window.location = "./index.html";
-				})
-				.catch(function (error) {
-					// grecaptcha.reset();
-					$("#modal-login-with-ua .error").text(error.message);
-					$("#modal-login-with-ua .error").show();
-					$("#modal-login-with-ua .progress").hide();
-					$("#modal-login-with-ua .form-submit-button").show();
-				});
+		// log the user in
+		firebase
+			.auth()
+			.signInWithEmailAndPassword(email, password)
+			.then((user) => {
+				if ($(".modal")) {
+					M.Modal.getInstance($(".modal")).close();
+					$(".modal").modal();
+				}
+				if (window.location.href.search(/.*\/demo\.html/i) >= 0)
+					window.location = "./index.html";
+			})
+			.catch(function (error) {
+				// grecaptcha.reset();
+				$("#modal-login-with-ua .error").text(error.message);
+				$("#modal-login-with-ua .error").show();
+				$("#modal-login-with-ua .progress").hide();
+				$("#modal-login-with-ua .form-submit-button").show();
+			});
 		// }
 	});
 }
