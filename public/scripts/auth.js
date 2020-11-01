@@ -108,11 +108,6 @@ if (formLoginWithUA != null) {
 	formLoginWithUA.addEventListener("submit", (e) => {
 		e.preventDefault();
 
-		// var response = grecaptcha.getResponse();
-		// if (response.length == 0) {
-		// 	$("#modal-login-with-ua .error").text("captcha required");
-		// 	$("#modal-login-with-ua .error").show();
-		// } else {
 		$("#modal-login-with-ua .form-submit-button").hide();
 		$("#modal-login-with-ua .error").hide();
 		$("#modal-login-with-ua .progress").show();
@@ -132,13 +127,11 @@ if (formLoginWithUA != null) {
 					window.location = "./index.html";
 			})
 			.catch(function (error) {
-				// grecaptcha.reset();
 				$("#modal-login-with-ua .error").text(error.message);
 				$("#modal-login-with-ua .error").show();
 				$("#modal-login-with-ua .progress").hide();
 				$("#modal-login-with-ua .form-submit-button").show();
 			});
-		// }
 	});
 }
 
@@ -220,13 +213,14 @@ logoutTriggers.forEach((logoutTrigger) => {
 			e.preventDefault();
 			auth.signOut()
 				.then(() => {
-					sessionStorage.setItem("uims-auth", false);
 					sessionStorage.removeItem("attendanceData");
+					sessionStorage.removeItem("uims-auth");
 					if ($(".modal")) {
 						$(".modal").modal();
 					}
-					if (window.location.href.search(/.*\/demo(\.html)?/i) < 0)
-						window.location = "./index.html";
+					if (window.location.pathname === "/demo.html") {
+						refreshView();
+					}
 				})
 				.catch((err) => {
 					M.toast({ html: "check console" });
