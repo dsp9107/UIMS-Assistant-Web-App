@@ -1,4 +1,4 @@
-name: Firebase CD
+name: Firebase Deployment
 
 on:
   push:
