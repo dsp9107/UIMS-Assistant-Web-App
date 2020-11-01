@@ -1,12 +1,12 @@
 {
 	"hosting": {
 		"public": "public",
-		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+		"cleanUrls": true
 	},
 	"emulators": {
 		"hosting": {
-			"port": 5000,
-			"cleanUrls": true
+			"port": 5000
 		},
 		"ui": {
 			"enabled": true
