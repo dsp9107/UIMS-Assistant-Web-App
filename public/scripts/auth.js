@@ -24,7 +24,7 @@ const setupUI = (user) => {
 	}
 };
 
-firebase.auth().onAuthStateChanged((user) => {
+auth.onAuthStateChanged((user) => {
 	if (user) {
 		setupUI(user);
 	} else {
@@ -44,7 +44,9 @@ function fetchAttendance() {
 	$("#nav-spinner-sync .syncing").show();
 	M.toast({ html: "syncing attendance data" });
 
-	var fetchAttendanceV2 = fbFuncs.httpsCallable("fetchAttendanceV2");
+	var fetchAttendanceV2 = firebase
+		.functions()
+		.httpsCallable("fetchAttendanceV2");
 
 	fetchAttendanceV2()
 		.then((result) => {
@@ -120,9 +122,7 @@ if (formLoginWithUA != null) {
 		const password = formLoginWithUA["login-with-ua-password"].value;
 
 		// log the user in
-		firebase
-			.auth()
-			.signInWithEmailAndPassword(email, password)
+		auth.signInWithEmailAndPassword(email, password)
 			.then((user) => {
 				if ($(".modal")) {
 					M.Modal.getInstance($(".modal")).close();
@@ -218,9 +218,7 @@ logoutTriggers.forEach((logoutTrigger) => {
 	if (logoutTrigger != null) {
 		logoutTrigger.addEventListener("click", (e) => {
 			e.preventDefault();
-			firebase
-				.auth()
-				.signOut()
+			auth.signOut()
 				.then(() => {
 					sessionStorage.setItem("uims-auth", false);
 					sessionStorage.removeItem("attendanceData");
