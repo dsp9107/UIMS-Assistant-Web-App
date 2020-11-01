@@ -28,44 +28,52 @@
 	</head>
 	<body>
 		<!-- NAVBAR -->
-		<nav class="red accent-3">
-			<div class="nav-wrapper container">
-				<a href="./index.html" class="brand-logo white-text"
-					>UIMS Assistant</a
-				>
-				<a href="#" data-target="mobile-demo" class="sidenav-trigger"
-					><i class="material-icons">menu</i></a
-				>
-				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li
-						id="nav-my-attendance"
-						class="logged-in yellow"
-						style="display: none"
+		<div class="navbar-fixed">
+			<nav class="red accent-3">
+				<div class="nav-wrapper container">
+					<a href="./index.html" class="brand-logo white-text"
+						>UIMS Assistant</a
 					>
-						<a class="black-text" href="./demo.html"
-							>My Attendance</a
+					<a
+						href="#"
+						data-target="mobile-demo"
+						class="sidenav-trigger"
+						><i class="material-icons">menu</i></a
+					>
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<li
+							id="nav-my-attendance"
+							class="logged-in yellow"
+							style="display: none"
 						>
-					</li>
-					<li class="logged-out" style="display: none">
-						<a id="nav-cta-btn-see-demo" href="./demo.html">Demo</a>
-					</li>
-					<li class="logged-out yellow" style="display: none">
-						<a
-							class="dropdown-trigger black-text"
-							data-target="dropdown1"
-							>Login<i class="material-icons right"
-								>arrow_drop_down</i
-							></a
-						>
-					</li>
-					<li class="logged-in" style="display: none">
-						<a href="javaScript:void(0);" class="logout-fx"
-							>Logout</a
-						>
-					</li>
-				</ul>
-			</div>
-		</nav>
+							<a class="black-text" href="./demo.html"
+								>My Attendance</a
+							>
+						</li>
+						<li class="logged-out yellow">
+							<a
+								class="black-text"
+								id="nav-cta-btn-see-demo"
+								href="./demo.html"
+								>Check Out Demo</a
+							>
+						</li>
+						<!-- <li class="logged-out" style="display: none">
+            						<a class="dropdown-trigger" data-target="dropdown1"
+            							>Login<i class="material-icons right"
+            								>arrow_drop_down</i
+            							></a
+            						>
+            					</li>
+            					<li class="logged-in" style="display: none">
+            						<a href="javaScript:void(0);" class="logout-fx"
+            							>Logout</a
+            						>
+            					</li> -->
+					</ul>
+				</div>
+			</nav>
+		</div>
 
 		<!-- Dropdown Structure -->
 		<ul id="dropdown1" class="dropdown-content red accent-3">
@@ -158,9 +166,10 @@
 								</li>
 								<li>
 									<a
+										id="sidenav-cta-btn-login-with-uims-creds"
 										href="javaScript:void(0);"
 										class="modal-trigger"
-										data-target="modal-login-with-uims"
+										data-target="modal-premium"
 										>Login with UIMS Creds</a
 									>
 								</li>
