@@ -122,9 +122,8 @@ function loginWithUA() {
 				$(".modal").modal();
 			}
 			sessionStorage.setItem("uims-auth", true);
-			if (window.location.pathname === "/demo.html") {
-				refreshView();
-			}
+			if (window.location.pathname !== "/index.html")
+				window.location = "./index.html";
 		})
 		.catch(function (error) {
 			$("#modal-login-with-ua .error").text(error.message);
@@ -219,7 +218,7 @@ logoutTriggers.forEach((logoutTrigger) => {
 						$(".modal").modal();
 					}
 					if (window.location.pathname === "/demo.html") {
-						refreshView();
+						window.location.reload();
 					}
 				})
 				.catch((err) => {
