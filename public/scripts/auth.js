@@ -103,36 +103,36 @@ function fetchAttendance() {
 }
 
 // login with UA
-const formLoginWithUA = document.querySelector("#login-with-ua-form");
-if (formLoginWithUA != null) {
-	formLoginWithUA.addEventListener("submit", (e) => {
-		e.preventDefault();
+const formLoginWithUA = document.getElementById("login-with-ua-form");
 
-		$("#modal-login-with-ua .form-submit-button").hide();
-		$("#modal-login-with-ua .error").hide();
-		$("#modal-login-with-ua .progress").show();
+function loginWithUA() {
+	$("#modal-login-with-ua .form-submit-button").hide();
+	$("#modal-login-with-ua .error").hide();
+	$("#modal-login-with-ua .progress").show();
 
-		// get user info
-		const email = formLoginWithUA["login-with-ua-email"].value;
-		const password = formLoginWithUA["login-with-ua-password"].value;
+	// get user info
+	const email = formLoginWithUA["login-with-ua-email"].value;
+	const password = formLoginWithUA["login-with-ua-password"].value;
 
-		// log the user in
-		auth.signInWithEmailAndPassword(email, password)
-			.then((user) => {
-				if ($(".modal")) {
-					M.Modal.getInstance($(".modal")).close();
-					$(".modal").modal();
-				}
-				if (window.location.href.search(/.*\/demo\.html/i) >= 0)
-					window.location = "./index.html";
-			})
-			.catch(function (error) {
-				$("#modal-login-with-ua .error").text(error.message);
-				$("#modal-login-with-ua .error").show();
-				$("#modal-login-with-ua .progress").hide();
-				$("#modal-login-with-ua .form-submit-button").show();
-			});
-	});
+	// log the user in
+	auth.signInWithEmailAndPassword(email, password)
+		.then((user) => {
+			if ($(".modal")) {
+				M.Modal.getInstance($(".modal")).close();
+				$(".modal").modal();
+			}
+			sessionStorage.setItem("uims-auth", true);
+			if (window.location.pathname === "/demo.html") {
+				refreshView();
+			}
+		})
+		.catch(function (error) {
+			$("#modal-login-with-ua .error").text(error.message);
+			$("#modal-login-with-ua .error").show();
+			$("#modal-login-with-ua .progress").hide();
+			$("#modal-login-with-ua .form-submit-button").show();
+			grecaptcha.reset();
+		});
 }
 
 // login with UIMS
